@@ -1,3 +1,4 @@
+import 'package:fdriver/view/changepassword/change_password_screen.dart';
 import 'package:fdriver/view/home/home_screen.dart';
 import 'package:fdriver/view/login/login_screen.dart';
 import 'package:fdriver/view/register/register_screen.dart';
@@ -13,6 +14,7 @@ class RoutesClass {
   static String register = "/register";
   static String registerCar = "/registercar";
   static String home = "/";
+  static String changePassword = "/changepassword";
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -39,6 +41,11 @@ class RoutesClass {
     GetPage(
         name: registerCar,
         page: () => const RegisterCarScreen(),
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: changePassword,
+        page: () => ChangePassword(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 300)),
   ];

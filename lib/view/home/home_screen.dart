@@ -1,3 +1,5 @@
+import 'package:fdriver/view/account/account_screen.dart';
+import 'package:fdriver/view/now/now_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,7 +14,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _selectedIndex = 0.obs;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    Text('0', style: TextStyle(fontSize: 24)),
+    AccountScreen(),
     Text('1', style: TextStyle(fontSize: 24)),
     Text('2', style: TextStyle(fontSize: 24)),
     Text('3', style: TextStyle(fontSize: 24)),
@@ -41,6 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onDestinationSelected: _onItemTapped,
               destinations: [
                 NavigationDestination(
+                    icon: Icon(Icons.account_box_outlined),
+                    selectedIcon: Icon(Icons.account_box),
+                    label: 'account'),
+                NavigationDestination(
                     icon: Icon(Icons.toys_outlined),
                     selectedIcon: Icon(Icons.toys),
                     label: 'Now'),
@@ -52,10 +58,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     icon: Icon(Icons.checklist_outlined),
                     selectedIcon: Icon(Icons.checklist),
                     label: 'history'),
-                NavigationDestination(
-                    icon: Icon(Icons.account_box_outlined),
-                    selectedIcon: Icon(Icons.account_box),
-                    label: 'account'),
               ],
             ),
           ),

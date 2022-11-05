@@ -23,3 +23,7 @@ const String statusCancelled = 'Đã hủy';
 //Title thông báo snackbar
 const String titleSnackbarAccount = 'Thông tin tài khoản';
 const String titleSnackbarOrder = 'Chuyến đi';
+
+//
+const String inactiveState = 'Không hoạt động';
+const String activeStatus = 'Đang hoạt động';
