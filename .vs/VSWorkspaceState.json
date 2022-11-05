@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\lib",
+    "\\lib\\view",
+    "\\lib\\view\\home",
+    "\\lib\\view\\splash"
+  ],
+  "SelectedNode": "\\lib\\view\\home\\home_screen.dart",
+  "PreviewInSolutionExplorer": false
+}
