@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-      Get.offNamed(RoutesClass.home);
+      Get.offNamed(RoutesClass.selectLogin);
     });
   }
 
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: 300.0,
                     width: 300.0,
                   ),
-                  Text("Wellcome to FGo\n Need a car for amazing weekends?",
+                  Text("Wellcome to FDriver\n Be a great driver",
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
