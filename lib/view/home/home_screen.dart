@@ -15,7 +15,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     AccountScreen(),
-    Text('1', style: TextStyle(fontSize: 24)),
+    NowScreen(),
     Text('2', style: TextStyle(fontSize: 24)),
     Text('3', style: TextStyle(fontSize: 24)),
   ];

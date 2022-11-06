@@ -1,8 +1,10 @@
+import 'package:fdriver/bindings/run_binding.dart';
 import 'package:fdriver/view/changepassword/change_password_screen.dart';
 import 'package:fdriver/view/home/home_screen.dart';
 import 'package:fdriver/view/login/login_screen.dart';
 import 'package:fdriver/view/register/register_screen.dart';
 import 'package:fdriver/view/registercar/register_car_screen.dart';
+import 'package:fdriver/view/run/run_screen.dart';
 import 'package:fdriver/view/selectlogin/select_login_screen.dart';
 import 'package:fdriver/view/splash/splash_screen.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,7 @@ class RoutesClass {
   static String registerCar = "/registercar";
   static String home = "/";
   static String changePassword = "/changepassword";
+  static String run = "/run";
 
   static List<GetPage> routes = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -27,7 +30,7 @@ class RoutesClass {
         name: selectLogin,
         page: () => const SelectLogin(),
         transition: Transition.fadeIn,
-        transitionDuration: const Duration(milliseconds: 700)),
+        transitionDuration: const Duration(milliseconds: 500)),
     GetPage(
         name: login,
         page: () => const LoginScreen(),
@@ -48,5 +51,11 @@ class RoutesClass {
         page: () => ChangePassword(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: run,
+        page: () => const RunScreen(),
+        binding: RunBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 500)),
   ];
 }

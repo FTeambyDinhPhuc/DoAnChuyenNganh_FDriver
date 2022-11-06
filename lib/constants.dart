@@ -1,4 +1,4 @@
-const String google_map_api_key = "AIzaSyANakIUEVw9sVm2k-aYRO6FFUz_BKyXVHQ";
+const String google_map_api_key = "AIzaSyCtydqLWhaYUxDzEyUuvyJEwvf15KtavwY";
 
 //size
 const double defaultPadding = 16.0;
@@ -17,7 +17,9 @@ const double defaultthickness = 2.0;
 // Trạng thái chuyến đi
 const String statusWaitForConfirmation = 'Chờ xác nhận';
 const String statusBooked = 'Đã đặt';
-const String statusStarting = 'Đang chạy';
+const String statusStarting = 'Bắt đầu';
+const String statusToPickUpPoint = 'Đến điểm đón';
+const String statusStartTheTrip = 'Khởi hành';
 const String statusCompleted = 'Hoàn thành';
 const String statusCancelled = 'Đã hủy';
 //Title thông báo snackbar
@@ -27,3 +29,6 @@ const String titleSnackbarOrder = 'Chuyến đi';
 //
 const String inactiveState = 'Không hoạt động';
 const String activeStatus = 'Đang hoạt động';
+
+//
+
