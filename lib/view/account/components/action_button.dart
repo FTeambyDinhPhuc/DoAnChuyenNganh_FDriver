@@ -24,7 +24,9 @@ class ActionButton extends StatelessWidget {
         ButtonFullWidth(
           text: 'Đăng xuất',
           color: Colors.red.shade300,
-          press: () {},
+          press: () {
+            Get.offAllNamed(RoutesClass.splash);
+          },
         ),
       ],
     );

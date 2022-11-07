@@ -31,4 +31,4 @@ const String inactiveState = 'Không hoạt động';
 const String activeStatus = 'Đang hoạt động';
 
 //
-
+const String displayAll = 'Tất cả';

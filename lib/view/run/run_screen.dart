@@ -80,7 +80,7 @@ class _RunScreenState extends State<RunScreen> {
                     press: () async {
                       _orderController.statusOrder.value = statusToPickUpPoint;
                       await _locationController
-                          .setDestinationLocation(_orderController.diemDon);
+                          .setDestinationLocation(_orderController.pickUpPoint);
                       _locationController.getPolyPoints();
                     })
                 : _orderController.statusOrder.value == statusToPickUpPoint
@@ -106,7 +106,7 @@ class _RunScreenState extends State<RunScreen> {
                                           statusStartTheTrip;
                                       await _locationController
                                           .setDestinationLocation(
-                                              _orderController.diemDen);
+                                              _orderController.destination);
                                       _locationController.getPolyPoints();
                                       Get.back();
                                     },

@@ -1,5 +1,8 @@
 import 'package:fdriver/view/account/account_screen.dart';
 import 'package:fdriver/view/now/now_screen.dart';
+import 'package:fdriver/view/ordercalendar/order_calendar.dart';
+import 'package:fdriver/view/statistical/statistical.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +19,8 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     AccountScreen(),
     NowScreen(),
-    Text('2', style: TextStyle(fontSize: 24)),
-    Text('3', style: TextStyle(fontSize: 24)),
+    OrderCalendar(),
+    Statistical(),
   ];
 
   void _onItemTapped(int index) {
@@ -53,11 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 NavigationDestination(
                     icon: Icon(Icons.calendar_month_outlined),
                     selectedIcon: Icon(Icons.calendar_month),
-                    label: 'booked'),
+                    label: 'calendar'),
                 NavigationDestination(
                     icon: Icon(Icons.checklist_outlined),
                     selectedIcon: Icon(Icons.checklist),
-                    label: 'history'),
+                    label: 'statistical'),
               ],
             ),
           ),
