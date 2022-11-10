@@ -1,3 +1,4 @@
+import 'package:fdriver/bindings/home_binding.dart';
 import 'package:fdriver/bindings/run_binding.dart';
 import 'package:fdriver/view/changepassword/change_password_screen.dart';
 import 'package:fdriver/view/home/home_screen.dart';
@@ -26,6 +27,7 @@ class RoutesClass {
     GetPage(
         name: home,
         page: () => const MyHomePage(),
+        binding: HomeBinding(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 300)),
     GetPage(

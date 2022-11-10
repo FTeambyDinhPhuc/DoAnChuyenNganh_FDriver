@@ -1,4 +1,5 @@
-const String google_map_api_key = "AIzaSyCtydqLWhaYUxDzEyUuvyJEwvf15KtavwY";
+//quan trọng không được dụng vào
+late final String google_map_api_key;
 
 //size
 const double defaultPadding = 16.0;
@@ -30,5 +31,5 @@ const String titleSnackbarOrder = 'Chuyến đi';
 const String inactiveState = 'Không hoạt động';
 const String activeStatus = 'Đang hoạt động';
 
-//
+// lựa chọn hiển thĩ ở màn hình lịch chuyến đi
 const String displayAll = 'Tất cả';

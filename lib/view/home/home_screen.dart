@@ -1,3 +1,4 @@
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/view/account/account_screen.dart';
 import 'package:fdriver/view/now/now_screen.dart';
 import 'package:fdriver/view/ordercalendar/order_calendar.dart';
@@ -14,7 +15,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var _homeController = Get.find<HomeController>();
   var _selectedIndex = 0.obs;
+
+  @override
+  void initState() {
+    _homeController.getGoogleMapAPIKey();
+    super.initState();
+  }
 
   static const List<Widget> _widgetOptions = <Widget>[
     AccountScreen(),
