@@ -1,7 +1,7 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/widgets/button_full_width.dart';
-import 'package:fdriver/widgets/hero_dialog_route.dart';
+import 'package:fdriver/methodshares/hero_dialog_route.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';

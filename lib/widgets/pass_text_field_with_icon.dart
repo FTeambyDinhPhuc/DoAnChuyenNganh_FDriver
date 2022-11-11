@@ -6,10 +6,12 @@ class PassTextFieldWithIcon extends StatelessWidget {
   final String text;
   final IconData icon;
   final TextInputType inputType;
+  final TextEditingController? controller;
   const PassTextFieldWithIcon(
       {Key? key,
       required this.text,
       required this.icon,
+      this.controller,
       required this.inputType})
       : super(key: key);
 
@@ -17,6 +19,7 @@ class PassTextFieldWithIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     var obsurePassword = true.obs;
     return Obx((() => TextField(
+          controller: controller,
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,

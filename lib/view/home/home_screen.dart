@@ -15,12 +15,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var _homeController = Get.find<HomeController>();
+  // var _homeController = Get.find<HomeController>();
   var _selectedIndex = 0.obs;
 
   @override
   void initState() {
-    _homeController.getGoogleMapAPIKey();
+    // _homeController.getGoogleMapAPIKey();
     super.initState();
   }
 

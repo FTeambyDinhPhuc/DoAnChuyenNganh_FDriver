@@ -1,4 +1,6 @@
 //quan trọng không được dụng vào
+import 'package:get/get.dart';
+
 late final String google_map_api_key;
 
 //size
@@ -26,6 +28,9 @@ const String statusCancelled = 'Đã hủy';
 //Title thông báo snackbar
 const String titleSnackbarAccount = 'Thông tin tài khoản';
 const String titleSnackbarOrder = 'Chuyến đi';
+
+//Type trong address components API google map
+const String typeDistrict = 'administrative_area_level_2';
 
 //
 const String inactiveState = 'Không hoạt động';

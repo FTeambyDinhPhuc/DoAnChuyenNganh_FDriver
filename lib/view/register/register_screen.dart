@@ -1,4 +1,6 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/place_search_controller.dart';
+import 'package:fdriver/controllers/register_controller.dart';
 import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/register/components/select_orther_register.dart';
 import 'package:fdriver/view/register/components/text_field_register.dart';
@@ -6,8 +8,28 @@ import 'package:fdriver/widgets/button_full_width.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  var _placeController = Get.find<PlaceSearchController>();
+  var _registerController = Get.find<RegisterController>();
+
+  @override
+  void initState() {
+    _registerController.sodienthoaiController = TextEditingController();
+    _registerController.tenhienthiController = TextEditingController();
+    _registerController.cccdController = TextEditingController();
+    _registerController.matkhauController = TextEditingController();
+    _registerController.xacnhanmatkhauController = TextEditingController();
+    _placeController.startingAddressController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +41,22 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFieldRegister(),
+                TextFieldRegister(
+                  placeSearchController: _placeController,
+                  registerController: _registerController,
+                ),
                 ButtonFullWidth(
                     text: "Tiếp tục",
-                    press: () {
-                      Get.toNamed(RoutesClass.registerCar);
+                    press: () async {
+                      if (_placeController.idSourceLocation.isNotEmpty) {
+                        await _placeController.setViTriDon();
+                        _registerController.register(
+                            _placeController.idSourceLocation.value,
+                            _placeController.districtSource);
+                      } else {
+                        Get.snackbar(
+                            titleSnackbarAccount, 'Bạn chựa nhập địa chỉ!');
+                      }
                     }),
                 const SizedBox(height: defaultPadding * 2),
                 SelectOtherRegister()

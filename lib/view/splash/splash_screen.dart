@@ -1,3 +1,6 @@
+import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/splash_controller.dart';
+import 'package:fdriver/methodshares/shared_preferences.dart';
 import 'package:fdriver/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,13 +13,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  var _splashController = Get.find<SplashController>();
+
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-      Get.offNamed(RoutesClass.selectLogin);
-    });
+    _splashController.getGoogleMapAPIKey();
   }
 
   @override

@@ -1,5 +1,8 @@
 import 'package:fdriver/bindings/home_binding.dart';
+import 'package:fdriver/bindings/login_binding.dart';
+import 'package:fdriver/bindings/register_binding.dart';
 import 'package:fdriver/bindings/run_binding.dart';
+import 'package:fdriver/bindings/splash_binging.dart';
 import 'package:fdriver/view/changepassword/change_password_screen.dart';
 import 'package:fdriver/view/home/home_screen.dart';
 import 'package:fdriver/view/login/login_screen.dart';
@@ -23,7 +26,10 @@ class RoutesClass {
   static String takeOrder = "/takeorder";
 
   static List<GetPage> routes = [
-    GetPage(name: splash, page: () => const SplashScreen()),
+    GetPage(
+        name: splash,
+        page: () => const SplashScreen(),
+        binding: SplashBinding()),
     GetPage(
         name: home,
         page: () => const MyHomePage(),
@@ -38,11 +44,13 @@ class RoutesClass {
     GetPage(
         name: login,
         page: () => const LoginScreen(),
+        binding: LoginBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 300)),
     GetPage(
         name: register,
         page: () => const RegisterScreen(),
+        binding: RegisterBinding(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 300)),
     GetPage(
