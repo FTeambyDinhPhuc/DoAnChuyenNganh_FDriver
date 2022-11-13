@@ -1,4 +1,5 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/register_controller.dart';
 import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/registercar/components/select_orther_register_car.dart';
 import 'package:fdriver/view/registercar/components/text_field_register_car.dart';
@@ -7,8 +8,23 @@ import 'package:fdriver/widgets/button_full_width.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegisterCarScreen extends StatelessWidget {
+class RegisterCarScreen extends StatefulWidget {
   const RegisterCarScreen({super.key});
+
+  @override
+  State<RegisterCarScreen> createState() => _RegisterCarScreenState();
+}
+
+class _RegisterCarScreenState extends State<RegisterCarScreen> {
+  var _registerController = Get.find<RegisterController>();
+  @override
+  void initState() {
+    _registerController.bienSoController = TextEditingController();
+    _registerController.soGheController = TextEditingController();
+    _registerController.hangXeController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +36,13 @@ class RegisterCarScreen extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFieldRegisterCar(),
+                TextFieldRegisterCar(
+                  registerController: _registerController,
+                ),
                 ButtonFullWidth(
                     text: "Hoàn thành",
                     press: () {
-                      Get.offAllNamed(RoutesClass.login);
+                      _registerController.registerCar();
                     }),
                 const SizedBox(height: defaultPadding * 2),
                 SelectOtherRegisterCar()

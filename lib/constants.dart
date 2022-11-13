@@ -1,7 +1,7 @@
 //quan trọng không được dụng vào
 import 'package:get/get.dart';
 
-late final String google_map_api_key;
+late String google_map_api_key;
 
 //size
 const double defaultPadding = 16.0;
