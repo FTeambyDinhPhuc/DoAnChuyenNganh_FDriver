@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fdriver/models/car_model.dart';
 import 'package:fdriver/models/driver_model.dart';
 import 'package:fdriver/models/google_map_api_model.dart';
 import 'package:get/get.dart';
@@ -96,6 +97,40 @@ class FDriverAppServices {
         Get.snackbar('Lỗi đăng ký xe!', data['data']);
       }
       return data['error'];
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy thông tin 1 tài xế
+  static Future<DriverModel?> fetchDriver(int id) async {
+    final response = await http
+        .get(Uri.parse('https://cn-api.fteamlp.top/api/taixe/getTaiXe/${id}'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == 0) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      return DriverModel.fromJson(data['data']);
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy thông tin 1 xe theo id tài xế
+  static Future<CarModel?> fetchCar(int id) async {
+    final response = await http
+        .get(Uri.parse('https://cn-api.fteamlp.top/api/xe/getInforById/${id}'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == 0) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      return CarModel.fromJson(data['data']);
     } else {
       Get.snackbar('Lỗi khi tải dữ liệu!',
           'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');

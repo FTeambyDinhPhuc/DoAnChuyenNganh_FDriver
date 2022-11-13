@@ -1,4 +1,7 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/car_controller.dart';
+import 'package:fdriver/controllers/driver_controller.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/view/account/components/action_button.dart';
 import 'package:fdriver/view/account/components/info_account.dart';
 import 'package:fdriver/view/account/components/info_car.dart';
@@ -15,51 +18,73 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  var status = true.obs;
+  var _driverController = Get.put(DriverController());
+  var _carController = Get.put(CarController());
+  var _homeController = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    _driverController.getDriver(int.parse(_homeController.idDriver.value));
+    _carController.getCar(int.parse(_homeController.idDriver.value));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(defaultPadding),
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(() => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    RichText(
-                        text: TextSpan(
-                            style: Theme.of(context).textTheme.headline6,
-                            children: [
-                          TextSpan(text: 'Trạng thái hoạt động: '),
-                          TextSpan(
-                            text: status.value ? activeStatus : inactiveState,
-                            style: Theme.of(context).textTheme.headline5,
-                          ),
-                        ])),
-                    ButtonIconSmall(
-                      icon: Icons.eco,
-                      colorIcon: status.value ? Colors.green : Colors.black,
-                      press: () {
-                        status.value = !status.value;
-                      },
-                    )
-                  ],
-                )),
-            const SizedBox(height: defaultPadding),
-            Column(
-              children: [
-                InfoAccount(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: defaultPadding, bottom: defaultPaddingBottom),
-                  child: InfoCar(),
-                ),
-                ActionButton()
-              ],
-            )
-          ],
-        ),
+        child: Obx(() => _driverController.isLoading.value ||
+                _carController.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
+              )
+            : Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RichText(
+                          text: TextSpan(
+                              style: Theme.of(context).textTheme.headline6,
+                              children: [
+                            TextSpan(text: 'Trạng thái hoạt động: '),
+                            TextSpan(
+                              text: _driverController.trangThaiHoatDong != 0
+                                  ? activeStatus
+                                  : inactiveState,
+                              style: Theme.of(context).textTheme.headline5,
+                            ),
+                          ])),
+                      ButtonIconSmall(
+                        icon: Icons.eco,
+                        colorIcon: _driverController.trangThaiHoatDong != 0
+                            ? Colors.green
+                            : Colors.black,
+                        press: () {},
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: defaultPadding),
+                  Column(
+                    children: [
+                      InfoAccount(
+                        driverController: _driverController,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(
+                              top: defaultPadding,
+                              bottom: defaultPaddingBottom),
+                          child: InfoCar(
+                            carController: _carController,
+                          )),
+                      ActionButton()
+                    ],
+                  )
+                ],
+              )),
       ),
     );
   }

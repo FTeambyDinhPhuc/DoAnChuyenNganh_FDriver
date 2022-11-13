@@ -1,11 +1,16 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/driver_controller.dart';
 import 'package:fdriver/view/account/components/info_line.dart';
 import 'package:flutter/material.dart';
 
 class InfoAccount extends StatelessWidget {
   const InfoAccount({
     Key? key,
-  }) : super(key: key);
+    required DriverController driverController,
+  })  : _driverController = driverController,
+        super(key: key);
+
+  final DriverController _driverController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +23,15 @@ class InfoAccount extends StatelessWidget {
         const Divider(
           thickness: defaultthickness,
         ),
-        InfoLine(title: 'Tên tài xế', content: 'Nguyễn Văn Xế '),
-        InfoLine(title: 'Căn cước công dân', content: '3462784526'),
         InfoLine(
-            title: 'Địa chỉ đang ở',
-            content: '54 đường 12D, long thạnh mỹ, quận 9'),
+            title: 'Tên tài xế', content: _driverController.driver!.tentaixe),
+        InfoLine(
+            title: 'Số điện thoại',
+            content: _driverController.driver!.sodienthoai),
+        InfoLine(
+            title: 'Căn cước công dân',
+            content: _driverController.driver!.cccd),
+        InfoLine(title: 'Địa chỉ đang ở', content: _driverController.diaChi),
       ],
     );
   }

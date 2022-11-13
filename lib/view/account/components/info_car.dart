@@ -1,11 +1,15 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/car_controller.dart';
 import 'package:fdriver/view/account/components/info_line.dart';
 import 'package:flutter/material.dart';
 
 class InfoCar extends StatelessWidget {
   const InfoCar({
     Key? key,
-  }) : super(key: key);
+    required CarController carController,
+  })  : _carController = carController,
+        super(key: key);
+  final CarController _carController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,10 @@ class InfoCar extends StatelessWidget {
         const Divider(
           thickness: defaultthickness,
         ),
-        InfoLine(title: 'Tên xe', content: 'toyota vios'),
-        InfoLine(title: 'Biển số', content: '3462784526'),
-        InfoLine(title: 'Số ghế', content: '7'),
+        InfoLine(title: 'Tên xe', content: _carController.car!.hangxe),
+        InfoLine(title: 'Biển số', content: _carController.car!.bienso),
+        InfoLine(
+            title: 'Số ghế', content: _carController.car!.soghe.toString()),
       ],
     );
   }
