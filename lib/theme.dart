@@ -1,14 +1,17 @@
+import 'package:fdriver/constants.dart';
 import 'package:flutter/material.dart';
 
 class FgoTheme {
   //ligh mode
   static final lightTheme = ThemeData(
       fontFamily: "OpenSans",
-      primaryColor: Colors.teal,
-      appBarTheme: AppBarTheme(color: Colors.teal),
-      scaffoldBackgroundColor: Colors.white,
+      primaryColor: primaryColor,
+      appBarTheme: AppBarTheme(
+        color: scaffoldBackgroundColor,
+      ),
+      scaffoldBackgroundColor: scaffoldBackgroundColor,
       colorScheme: ThemeData().colorScheme.copyWith(
-            primary: Colors.teal,
+            primary: primaryColor,
           ),
       textTheme: TextTheme(
         headline1: TextStyle(
@@ -22,7 +25,7 @@ class FgoTheme {
           fontSize: 24,
         ),
         headline3: TextStyle(
-          color: Colors.white.withOpacity(0.9),
+          color: Color(0xFF1B070B),
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),

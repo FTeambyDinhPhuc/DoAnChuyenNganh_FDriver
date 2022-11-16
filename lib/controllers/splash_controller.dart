@@ -19,7 +19,7 @@ class SplashController extends GetxController {
       await saveKeyGoogleMap(googleMapApi);
       google_map_api_key =
           await BaseSharedPreferences.getString('key_google_map');
-      Get.offNamed(RoutesClass.login);
+      Get.offNamed(RoutesClass.selectLogin);
     } else {
       print("Dữ liệu tài khoản chưa được đổ vào!");
     }

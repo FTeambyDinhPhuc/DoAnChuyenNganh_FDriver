@@ -25,30 +25,27 @@ class _OrderCalendarState extends State<OrderCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          top: defaultPadding, left: defaultPadding, right: defaultPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: defaultPadding),
-            child: Center(
-              child: Text(
-                'Lịch đơn chạy',
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+              left: defaultPaddingSmall, top: defaultPadding),
+          child: Text(
+            'Lịch đơn chạy',
+            style: Theme.of(context).textTheme.headline2,
           ),
-          SelectDisplay(orderController: _orderController),
-          const SizedBox(height: defaultPadding),
-          Expanded(
-            child: ListOrder(
-              controller: _orderController,
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(defaultPadding),
+          child: SelectDisplay(orderController: _orderController),
+        ),
+        Expanded(
+          child: ListOrder(
+            controller: _orderController,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

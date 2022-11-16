@@ -1,7 +1,5 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/splash_controller.dart';
-import 'package:fdriver/methodshares/shared_preferences.dart';
-import 'package:fdriver/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Colors.teal,
-                Colors.indigo,
+                primaryColor,
+                blueColor,
               ]),
         ),
         child: Column(

@@ -1,7 +1,7 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/view/takeorders/components/detailed_take_order.dart';
 import 'package:fdriver/view/takeorders/components/title_take_order.dart';
-import 'package:fdriver/widgets/my_button.dart';
+import 'package:fdriver/widgets/my_button_small.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,13 +34,13 @@ class _TakeOrderScreenState extends State<TakeOrderScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  MyButton(
+                  MyButtonSmall(
                       text: 'Không nhận',
                       color: Colors.red.shade300,
                       press: () {
                         Get.back();
                       }),
-                  MyButton(text: 'Nhận đơn', press: () {}),
+                  MyButtonSmall(text: 'Nhận đơn', press: () {}),
                 ],
               ),
             ],

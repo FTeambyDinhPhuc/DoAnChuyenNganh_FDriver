@@ -2,7 +2,9 @@ import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/routes/routes.dart';
-import 'package:fdriver/widgets/button_full_width.dart';
+
+import 'package:fdriver/widgets/my_button_small.dart';
+import 'package:fdriver/widgets/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,17 +21,49 @@ class _RunScreenState extends State<RunScreen> {
   var _orderController = Get.find<OrderController>();
 
   @override
+  void initState() {
+    _orderController.getAllOrder();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Center(
-            child: Obx(() => Text(
-                  '${_orderController.statusOrder.value}',
-                  style: Theme.of(context).textTheme.headline3,
-                )),
-          )),
-      body: Stack(alignment: Alignment.bottomCenter, children: [
+          actions: [
+            Obx(
+              () => _orderController.statusOrder.value == statusStarting
+                  ? MyButtonSmall(
+                      text: 'Tới điểm đón',
+                      color: orangeColor,
+                      press: () async {
+                        _orderController.statusOrder.value =
+                            statusToPickUpPoint;
+                        await _locationController.setDestinationLocation(
+                            _orderController.pickUpPoint);
+                        _locationController.getPolyPoints();
+                      })
+                  : _orderController.statusOrder.value == statusToPickUpPoint
+                      ? MyButtonSmall(
+                          text: 'Khởi hành',
+                          color: blueColor,
+                          press: () async {
+                            await XacNhanKhoiHanh(context);
+                          })
+                      : MyButtonSmall(
+                          text: 'Hoàn thành',
+                          color: Theme.of(context).primaryColor,
+                          press: () {
+                            XacNhanHoanThanh(context);
+                          }),
+            ),
+          ],
+          title: Obx(() => Text(
+                '${_orderController.statusOrder.value}',
+                style: Theme.of(context).textTheme.headline3,
+              ))),
+      body: Column(children: [
         Expanded(
           child: Obx(
             () {
@@ -71,81 +105,63 @@ class _RunScreenState extends State<RunScreen> {
             },
           ),
         ),
-        Obx(() => Padding(
-            padding: const EdgeInsets.all(defaultPadding),
-            child: _orderController.statusOrder.value == statusStarting
-                ? ButtonFullWidth(
-                    text: 'Tới điểm đón',
-                    color: Colors.orange,
-                    press: () async {
-                      _orderController.statusOrder.value = statusToPickUpPoint;
-                      await _locationController
-                          .setDestinationLocation(_orderController.pickUpPoint);
-                      _locationController.getPolyPoints();
-                    })
-                : _orderController.statusOrder.value == statusToPickUpPoint
-                    ? ButtonFullWidth(
-                        text: 'Khởi hành',
-                        color: Colors.blue.shade300,
-                        press: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                titleSnackbarOrder,
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              content: Text(
-                                'Xác nhận khởi hành',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () async {
-                                      _orderController.statusOrder.value =
-                                          statusStartTheTrip;
-                                      await _locationController
-                                          .setDestinationLocation(
-                                              _orderController.destination);
-                                      _locationController.getPolyPoints();
-                                      Get.back();
-                                    },
-                                    child: Text(
-                                      'Xác nhận',
-                                    )),
-                              ],
-                            ),
-                          );
-                        })
-                    : ButtonFullWidth(
-                        text: 'Hoàn thành',
-                        press: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text(
-                                titleSnackbarOrder,
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              content: Text(
-                                'Xác nhận hoàn thành',
-                                style: Theme.of(context).textTheme.headline6,
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      _orderController.statusOrder.value =
-                                          statusCompleted;
-                                      Get.toNamed(RoutesClass.home);
-                                    },
-                                    child: Text(
-                                      'Xác nhận',
-                                    )),
-                              ],
-                            ),
-                          );
-                        })))
+        Ticket(order: _orderController.orderList[0])
       ]),
+    );
+  }
+
+  Future<dynamic> XacNhanHoanThanh(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          titleSnackbarOrder,
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        content: Text(
+          'Xác nhận hoàn thành',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                _orderController.statusOrder.value = statusCompleted;
+                Get.toNamed(RoutesClass.home);
+              },
+              child: Text(
+                'Xác nhận',
+              )),
+        ],
+      ),
+    );
+  }
+
+  XacNhanKhoiHanh(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          titleSnackbarOrder,
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        content: Text(
+          'Xác nhận khởi hành',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        actions: [
+          TextButton(
+              onPressed: () async {
+                _orderController.statusOrder.value = statusStartTheTrip;
+                await _locationController
+                    .setDestinationLocation(_orderController.destination);
+                _locationController.getPolyPoints();
+                Get.back();
+              },
+              child: Text(
+                'Xác nhận',
+              )),
+        ],
+      ),
     );
   }
 }

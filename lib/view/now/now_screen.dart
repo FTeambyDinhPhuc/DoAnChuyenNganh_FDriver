@@ -16,57 +16,59 @@ class NowScreen extends StatefulWidget {
 class _NowScreenState extends State<NowScreen> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(defaultPadding),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TitleOrderNow(),
-            const Divider(
-              thickness: defaultthickness,
+    return Column(
+      children: [
+        TitleOrderNow(),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: defaultPaddingLarge),
+                    child: DetailedOrder(),
+                  ),
+                  ButtonFullWidth(
+                      text: 'Bắt đầu',
+                      press: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text(
+                              titleSnackbarOrder,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                            content: Text(
+                              'Bạn sẵn sàng cho chuyến đi chưa?',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text(
+                                    'Chưa',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.offAllNamed(RoutesClass.run);
+                                  },
+                                  child: Text(
+                                    'Sẵn sàng',
+                                  )),
+                            ],
+                          ),
+                        );
+                      }),
+                ],
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: defaultPadding, bottom: defaultPaddingBottom),
-              child: DetailedOrder(),
-            ),
-            ButtonFullWidth(
-                text: 'Bắt đầu',
-                press: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text(
-                        titleSnackbarOrder,
-                        style: Theme.of(context).textTheme.headline4,
-                      ),
-                      content: Text(
-                        'Bạn sẵn sàng cho chuyến đi chưa?',
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Text(
-                              'Chưa',
-                              style: TextStyle(color: Colors.red),
-                            )),
-                        TextButton(
-                            onPressed: () {
-                              Get.offAllNamed(RoutesClass.run);
-                            },
-                            child: Text(
-                              'Sẵn sàng',
-                            )),
-                      ],
-                    ),
-                  );
-                }),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

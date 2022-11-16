@@ -33,11 +33,9 @@ class _StatisticalState extends State<Statistical> {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: defaultPadding),
-            child: Center(
-              child: Text(
-                'Thống kê',
-                style: Theme.of(context).textTheme.headline2,
-              ),
+            child: Text(
+              'Thống kê',
+              style: Theme.of(context).textTheme.headline2,
             ),
           ),
           SingleChildScrollView(

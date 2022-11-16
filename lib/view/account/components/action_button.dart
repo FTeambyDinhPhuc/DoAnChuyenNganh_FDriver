@@ -1,6 +1,7 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/widgets/button_full_width.dart';
+import 'package:fdriver/widgets/button_full_width_outline.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,15 +16,15 @@ class ActionButton extends StatelessWidget {
       children: [
         ButtonFullWidth(
           text: 'Đổi mật khẩu',
-          color: Colors.blue.shade300,
+          color: Theme.of(context).primaryColor,
           press: () {
             Get.toNamed(RoutesClass.changePassword);
           },
         ),
         const SizedBox(height: defaultPadding),
-        ButtonFullWidth(
+        ButtonFullWidthOutline(
           text: 'Đăng xuất',
-          color: Colors.red.shade300,
+          color: Colors.red,
           press: () {
             Get.offAllNamed(RoutesClass.splash);
           },

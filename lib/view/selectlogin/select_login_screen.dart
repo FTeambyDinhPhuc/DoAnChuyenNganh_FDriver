@@ -18,8 +18,8 @@ class SelectLogin extends StatelessWidget {
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               colors: [
-                Colors.teal,
-                Colors.indigo,
+                primaryColor,
+                blueColor,
               ]),
         ),
         child: Center(
