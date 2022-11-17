@@ -49,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     text: "Tiếp tục",
                     press: () async {
                       if (_placeController.idSourceLocation.isNotEmpty) {
-                        await _placeController.setViTriDon();
+                        await _placeController.setViTriHoatDong();
                         _registerController.register(
                             _placeController.idSourceLocation.value,
                             _placeController.districtSource);

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:fdriver/models/car_model.dart';
+import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/driver_model.dart';
 import 'package:fdriver/models/google_map_api_model.dart';
+import 'package:fdriver/models/order_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -103,6 +105,23 @@ class FDriverAppServices {
     }
   }
 
+  //Lấy thông tin 1 khách hàng
+  static Future<CustommerModel?> fetchCustommer(int id) async {
+    final response = await http
+        .get(Uri.parse('https://cn-api.fteamlp.top/api/users/getUser/$id'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == 0) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      return CustommerModel.fromJson(data['data']);
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
   //Lấy thông tin 1 tài xế
   static Future<DriverModel?> fetchDriver(int id) async {
     final response = await http
@@ -131,6 +150,57 @@ class FDriverAppServices {
         return null;
       }
       return CarModel.fromJson(data['data']);
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //cập nhật vị trí hiện tại của tài xế
+  static fetchUpdateLocation(
+    String idTaiXe,
+    String vido,
+    String kinhdo,
+  ) async {
+    var map = {};
+    map['id_taixe'] = idTaiXe;
+    map['vido'] = vido;
+    map['kinhdo'] = kinhdo;
+
+    final response = await http.patch(
+        Uri.parse('https://cn-api.fteamlp.top/api/taixe/updateKDVD'),
+        body: map);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == 0) {
+        Get.snackbar('Lỗi cập nhật vị trí!', data['message']);
+      } else {
+        print(data['message']);
+      }
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy danh sách đơn hàng hôm nay
+  static Future<List<OrderModel>?> fetchNowOrderList(
+      int id, String dateNow) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/GCXBIdADTT/${id}/${dateNow}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
     } else {
       Get.snackbar('Lỗi khi tải dữ liệu!',
           'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');

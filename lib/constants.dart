@@ -24,6 +24,7 @@ const double defaultSizeText = 16.0;
 const double defaultSizeIcon = 16.0;
 const double defaultSizeIconButton = 24.0;
 const double defaultSizeImage = 40.0;
+const double defaultSizeImageSmall = 30.0;
 const double heightButton = 55.0;
 const double defaultthickness = 1.0;
 
@@ -31,7 +32,6 @@ const double defaultthickness = 1.0;
 // Trạng thái chuyến đi
 const String statusWaitForConfirmation = 'Chờ xác nhận';
 const String statusBooked = 'Đã đặt';
-const String statusStarting = 'Bắt đầu';
 const String statusToPickUpPoint = 'Đến điểm đón';
 const String statusStartTheTrip = 'Khởi hành';
 const String statusCompleted = 'Hoàn thành';
@@ -49,3 +49,7 @@ const String activeStatus = 'Đang hoạt động';
 
 // lựa chọn hiển thĩ ở màn hình lịch chuyến đi
 const String displayAll = 'Tất cả';
+
+//Trạng thái đánh giá đơn
+const String notYetRated = 'Chưa đánh giá';
+const String haveEvaluated = 'Đã đánh giá';

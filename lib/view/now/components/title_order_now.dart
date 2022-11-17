@@ -1,11 +1,15 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TitleOrderNow extends StatelessWidget {
   const TitleOrderNow({
     Key? key,
+    required this.order,
   }) : super(key: key);
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class TitleOrderNow extends StatelessWidget {
             style: Theme.of(context).textTheme.headline2,
           ),
           Text(
-            'Mã đơn: 001',
+            'Mã đơn: ${order.idChuyenxe}',
             style: Theme.of(context).textTheme.headline6,
           ),
           const Divider(

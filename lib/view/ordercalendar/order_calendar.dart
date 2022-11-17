@@ -6,20 +6,20 @@ import 'package:fdriver/widgets/list_order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderCalendar extends StatefulWidget {
-  const OrderCalendar({super.key});
+class OrderCalendarScreen extends StatefulWidget {
+  const OrderCalendarScreen({super.key});
 
   @override
-  State<OrderCalendar> createState() => _OrderCalendarState();
+  State<OrderCalendarScreen> createState() => _OrderCalendarScreenState();
 }
 
-class _OrderCalendarState extends State<OrderCalendar> {
+class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
   var _orderController = Get.put(OrderController());
 
   @override
   void initState() {
     _orderController.selectDate = DateTime(0000).obs;
-    _orderController.getAllOrder();
+
     super.initState();
   }
 
@@ -42,7 +42,7 @@ class _OrderCalendarState extends State<OrderCalendar> {
         ),
         Expanded(
           child: ListOrder(
-            controller: _orderController,
+            list: _orderController.calendarOrderList!,
           ),
         ),
       ],

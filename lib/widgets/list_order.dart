@@ -1,22 +1,29 @@
-import 'package:fdriver/controllers/order_controller.dart';
-import 'package:fdriver/widgets/ticket.dart';
+import 'package:fdriver/constants.dart';
+
+import 'package:fdriver/models/order_model.dart';
+
+import 'package:fdriver/widgets/ticket/ticket.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ListOrder extends StatelessWidget {
-  const ListOrder({
+  ListOrder({
     Key? key,
-    required OrderController controller,
-  })  : _controller = controller,
+    required RxList<OrderModel> list,
+  })  : _list = list,
         super(key: key);
 
-  final OrderController _controller;
+  RxList<OrderModel> _list;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: _controller.orderList.length,
+    return Obx(() => ListView.builder(
+        itemCount: _list.length,
         itemBuilder: (BuildContext context, int index) {
-          return Ticket(order: _controller.orderList[index]);
-        });
+          return Padding(
+            padding: const EdgeInsets.only(bottom: defaultPaddingSmall),
+            child: Ticket(order: _list[index]),
+          );
+        }));
   }
 }

@@ -1,10 +1,10 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
+import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/routes/routes.dart';
-
 import 'package:fdriver/widgets/my_button_small.dart';
-import 'package:fdriver/widgets/ticket.dart';
+import 'package:fdriver/widgets/ticket/ticket.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,9 +20,11 @@ class _RunScreenState extends State<RunScreen> {
   var _locationController = Get.find<LocationController>();
   var _orderController = Get.find<OrderController>();
 
+  OrderModel order = Get.arguments;
+
   @override
   void initState() {
-    _orderController.getAllOrder();
+    _orderController.getDataForRunScreen(order);
     super.initState();
   }
 
@@ -33,7 +35,7 @@ class _RunScreenState extends State<RunScreen> {
           automaticallyImplyLeading: false,
           actions: [
             Obx(
-              () => _orderController.statusOrder.value == statusStarting
+              () => _orderController.statusOrder.value == statusBooked
                   ? MyButtonSmall(
                       text: 'Tới điểm đón',
                       color: orangeColor,
@@ -43,6 +45,8 @@ class _RunScreenState extends State<RunScreen> {
                         await _locationController.setDestinationLocation(
                             _orderController.pickUpPoint);
                         _locationController.getPolyPoints();
+                        _locationController
+                            .updateCurrentLocation(order.idTaixe.toString());
                       })
                   : _orderController.statusOrder.value == statusToPickUpPoint
                       ? MyButtonSmall(
@@ -55,6 +59,8 @@ class _RunScreenState extends State<RunScreen> {
                           text: 'Hoàn thành',
                           color: Theme.of(context).primaryColor,
                           press: () {
+                            _locationController.stop = true;
+
                             XacNhanHoanThanh(context);
                           }),
             ),
@@ -105,7 +111,9 @@ class _RunScreenState extends State<RunScreen> {
             },
           ),
         ),
-        Ticket(order: _orderController.orderList[0])
+        Ticket(
+          order: order,
+        ),
       ]),
     );
   }

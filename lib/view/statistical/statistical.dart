@@ -1,7 +1,7 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/routes/routes.dart';
-import 'package:fdriver/view/ordercalendar/components/select_display.dart';
+
 import 'package:fdriver/view/statistical/components/button_statistical.dart';
 import 'package:fdriver/widgets/list_order.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,6 @@ class _StatisticalState extends State<Statistical> {
 
   @override
   void initState() {
-    _orderController.getAllOrder();
     super.initState();
   }
 
@@ -86,7 +85,7 @@ class _StatisticalState extends State<Statistical> {
           const SizedBox(height: defaultPadding),
           Expanded(
             child: ListOrder(
-              controller: _orderController,
+              list: _orderController.statisticalOrderList!,
             ),
           ),
         ],

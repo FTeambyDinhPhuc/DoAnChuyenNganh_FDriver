@@ -27,14 +27,14 @@ class PlaceSearchController extends GetxController {
   var distance = 0.obs;
 
   //vị trí đón
-  var sourceLatiTude = 0.0;
-  var sourceLongiTude = 0.0;
+  // var sourceLatiTude = 0.0;
+  // var sourceLongiTude = 0.0;
   //Huyện của vị trí đón
   var districtSource;
 
   //vị trí muốn đến
-  var destinationLatiTude = 0.0;
-  var destinationLongtiTude = 0.0;
+  // var destinationLatiTude = 0.0;
+  // var destinationLongtiTude = 0.0;
 
   //list điểm vị trí để vẽ đường
   var polylineCoordinates = <LatLng>[];
@@ -85,10 +85,8 @@ class PlaceSearchController extends GetxController {
   }
 
   //set vị trí đón
-  setViTriDon() async {
+  setViTriHoatDong() async {
     Place place = await getPlace(idSourceLocation.value);
-    sourceLatiTude = place.geometry.location.lat;
-    sourceLongiTude = place.geometry.location.lng;
     var listComponents = place.addressComponents;
     for (int i = 0; i < listComponents.length; i++) {
       var listTypes = listComponents[i].types;
@@ -101,47 +99,48 @@ class PlaceSearchController extends GetxController {
   }
 
   //set vị trí đến
-  setViTriDen() async {
-    Place place = await getPlace(idDestinationLocation.value);
-    destinationLatiTude = place.geometry.location.lat;
-    destinationLongtiTude = place.geometry.location.lng;
+  setViTri(String idPlace) async {
+    Place place = await getPlace(idPlace);
+    LatLng viTri =
+        LatLng(place.geometry.location.lat, place.geometry.location.lng);
+    return viTri;
   }
 
   //lấy các điểm từ trên đường từ vị trí source đến destination
-  getPolyPoints() async {
-    polylineCoordinates.clear();
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      google_map_api_key,
-      PointLatLng(sourceLatiTude, sourceLongiTude),
-      PointLatLng(destinationLatiTude, destinationLongtiTude),
-    );
-    if (result.points.isNotEmpty) {
-      result.points.forEach((PointLatLng point) =>
-          polylineCoordinates.add(LatLng(point.latitude, point.longitude)));
-    }
-  }
+  // getPolyPoints() async {
+  //   polylineCoordinates.clear();
+  //   PolylinePoints polylinePoints = PolylinePoints();
+  //   PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+  //     google_map_api_key,
+  //     PointLatLng(sourceLatiTude, sourceLongiTude),
+  //     PointLatLng(destinationLatiTude, destinationLongtiTude),
+  //   );
+  //   if (result.points.isNotEmpty) {
+  //     result.points.forEach((PointLatLng point) =>
+  //         polylineCoordinates.add(LatLng(point.latitude, point.longitude)));
+  //   }
+  // }
 
   //cộng 2 vector trả về km
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
+  // double calculateDistance(lat1, lon1, lat2, lon2) {
+  //   var p = 0.017453292519943295;
+  //   var c = cos;
+  //   var a = 0.5 -
+  //       c((lat2 - lat1) * p) / 2 +
+  //       c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+  //   return 12742 * asin(sqrt(a));
+  // }
 
   //tính quảng đường từ list các điểm trên quảng đường từ source đến destination
-  void tinhQuangDuong() {
-    double totalDistance = 0;
-    for (var i = 0; i < polylineCoordinates.length - 1; i++) {
-      totalDistance += calculateDistance(
-          polylineCoordinates[i].latitude,
-          polylineCoordinates[i].longitude,
-          polylineCoordinates[i + 1].latitude,
-          polylineCoordinates[i + 1].longitude);
-    }
-    distance.value = totalDistance.round();
-  }
+  // void tinhQuangDuong() {
+  //   double totalDistance = 0;
+  //   for (var i = 0; i < polylineCoordinates.length - 1; i++) {
+  //     totalDistance += calculateDistance(
+  //         polylineCoordinates[i].latitude,
+  //         polylineCoordinates[i].longitude,
+  //         polylineCoordinates[i + 1].latitude,
+  //         polylineCoordinates[i + 1].longitude);
+  //   }
+  //   distance.value = totalDistance.round();
+  // }
 }

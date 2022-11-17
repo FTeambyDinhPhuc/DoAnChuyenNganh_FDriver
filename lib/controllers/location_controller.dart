@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/services/fdriver_app_services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -18,6 +19,9 @@ class LocationController extends GetxController {
   var polylineCoordinates = <LatLng>[].obs;
 
   var added = false.obs;
+
+  //dừng update
+  bool stop = false;
 
   Completer<GoogleMapController> googleController = Completer();
 
@@ -52,6 +56,17 @@ class LocationController extends GetxController {
           zoom: 16,
           target: LatLng(currentLatiTude.value, currentLongiTude.value))),
     );
+  }
+
+  //cập nhật vị trí hiện tại của tài xế lên database
+  updateCurrentLocation(String idTaiXe) {
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      FDriverAppServices.fetchUpdateLocation(
+          idTaiXe, currentLatiTude.toString(), currentLongiTude.toString());
+      if (stop == true) {
+        timer.cancel();
+      }
+    });
   }
 
   //set vị trí chuẩn bị đến

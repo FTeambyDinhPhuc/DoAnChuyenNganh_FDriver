@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const List<Widget> _widgetOptions = <Widget>[
     AccountScreen(),
     NowScreen(),
-    OrderCalendar(),
+    OrderCalendarScreen(),
     Statistical(),
   ];
 

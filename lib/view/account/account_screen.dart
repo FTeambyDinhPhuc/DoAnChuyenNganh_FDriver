@@ -80,7 +80,10 @@ class _AccountScreenState extends State<AccountScreen> {
                           child: InfoCar(
                             carController: _carController,
                           )),
-                      ActionButton()
+                      ActionButton(
+                        driverController: _driverController,
+                        homeController: _homeController,
+                      )
                     ],
                   )
                 ],
