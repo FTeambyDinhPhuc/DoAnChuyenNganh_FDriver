@@ -9,10 +9,13 @@ class SelectDisplay extends StatelessWidget {
   const SelectDisplay({
     Key? key,
     required OrderController orderController,
+    required int idTaiXe,
   })  : _orderController = orderController,
+        _idTaiXe = idTaiXe,
         super(key: key);
 
   final OrderController _orderController;
+  final int _idTaiXe;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +33,8 @@ class SelectDisplay extends StatelessWidget {
                   .copyWith(color: Colors.black),
             ),
             Obx(() => Text(
-                  _orderController.selectDate != DateTime(0000)
-                      ? DateFormat("dd-MM-yyyy")
-                          .format(_orderController.selectDate.value)
+                  _orderController.selectDate != ''
+                      ? _orderController.selectDate.value
                       : displayAll,
                   style: Theme.of(context)
                       .textTheme
@@ -52,7 +54,9 @@ class SelectDisplay extends StatelessWidget {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2030))
                 .then((value) {
-              _orderController.selectDate.value = value!;
+              _orderController.selectDate.value =
+                  DateFormat("dd-MM-yyyy").format(value!);
+              _orderController.selectGetOrderCalendarList(_idTaiXe);
             });
           },
         ),

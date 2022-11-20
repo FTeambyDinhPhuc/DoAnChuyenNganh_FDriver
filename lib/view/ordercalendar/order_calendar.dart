@@ -1,4 +1,5 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/view/ordercalendar/components/select_display.dart';
 
@@ -15,11 +16,13 @@ class OrderCalendarScreen extends StatefulWidget {
 
 class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
   var _orderController = Get.put(OrderController());
+  var _homeController = Get.find<HomeController>();
 
   @override
   void initState() {
-    _orderController.selectDate = DateTime(0000).obs;
-
+    _orderController.selectDate.value = '';
+    _orderController
+        .selectGetOrderCalendarList(int.parse(_homeController.idDriver.value));
     super.initState();
   }
 
@@ -38,12 +41,35 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
         ),
         Padding(
           padding: const EdgeInsets.all(defaultPadding),
-          child: SelectDisplay(orderController: _orderController),
+          child: SelectDisplay(
+              orderController: _orderController,
+              idTaiXe: int.parse(_homeController.idDriver.value)),
         ),
-        Expanded(
-          child: ListOrder(
-            list: _orderController.calendarOrderList!,
-          ),
+        Obx(
+          () => _orderController.isLoadingOrderCalendarScreen == true
+              ? Center(
+                  child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
+                )
+              : _orderController.calendarOrderList!.length == 0
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('assets/images/bongocat.gif'),
+                          Text(
+                            'Bạn không có lịch chạy nào!',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: ListOrder(
+                        list: _orderController.calendarOrderList!,
+                      ),
+                    ),
         ),
       ],
     );

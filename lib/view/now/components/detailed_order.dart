@@ -137,7 +137,6 @@ class InfoLine extends StatelessWidget {
           Text(
             content,
             style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.end,
           )
         ],
       ),

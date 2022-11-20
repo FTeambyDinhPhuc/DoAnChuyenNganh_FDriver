@@ -5,6 +5,7 @@ import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/driver_model.dart';
 import 'package:fdriver/models/google_map_api_model.dart';
 import 'package:fdriver/models/order_model.dart';
+import 'package:fdriver/models/statistical_order_model.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -201,6 +202,161 @@ class FDriverAppServices {
         tutorList.add(OrderModel.fromJson(item));
       }
       return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy danh sách tất đơn đã đặt
+  static Future<List<OrderModel>?> fetchOrderCalendarList(
+      int id, String trangThai) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/GIdAndStatus/${id}/${trangThai}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy danh sách tất đơn đã đặt lọc theo ngày
+  static Future<List<OrderModel>?> fetchOrderCalendarForDateList(
+      int id, String ngay, String trangThai) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/getGCXIDNDTT/${id}/${ngay}/${trangThai}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy danh sách tất cả đơn hàng đã đặt, hoàn thành, dã hủy
+  static Future<List<OrderModel>?> fetchStatisticalOrderList(int id) async {
+    final response = await http.get(
+      Uri.parse('https://cn-api.fteamlp.top/api/taixe/GCXBIdADTTAll/${id}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy danh sách đơn theo tài xế lọc theo trạng thái
+  static Future<List<OrderModel>?> fetchStatisticalOrderForStatusList(
+      int id, String trangThai) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/GIdAndStatus/${id}/${trangThai}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Cập nhật trạng thái đơn hàng
+  static Future<bool?> fetchUpdateStatusOrder(
+    String idChuyenXe,
+    String trangThai,
+  ) async {
+    var map = {};
+    map['id_chuyenxe'] = idChuyenXe;
+    map['trangthai'] = trangThai;
+
+    final response = await http.patch(
+        Uri.parse('https://cn-api.fteamlp.top/api/users/UpdateStt'),
+        body: map);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi cập nhật trạng thái!', data['data']);
+      }
+      return data['error'];
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy tổng số đơn hàng của tài xế
+  static Future<StatisticalOrderModel?> fetchTotalOrder(int id) async {
+    final response = await http
+        .get(Uri.parse('https://cn-api.fteamlp.top/api/taixe/getTDByID/${id}'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      } else {
+        return StatisticalOrderModel.fromJson(data['data']);
+      }
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Lấy tổng số đơn hàng của tài xế lọc theo trạng thái
+  static Future<StatisticalOrderModel?> fetchTotalOrderForStatus(
+      int id, String trangThai) async {
+    final response = await http.get(Uri.parse(
+        'https://cn-api.fteamlp.top/api/taixe/getTDByIDTT/${id}/${trangThai}'));
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+        return null;
+      } else {
+        return StatisticalOrderModel.fromJson(data['data']);
+      }
     } else {
       Get.snackbar('Lỗi khi tải dữ liệu!',
           'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');

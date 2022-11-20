@@ -40,8 +40,7 @@ class _RunScreenState extends State<RunScreen> {
                       text: 'Tới điểm đón',
                       color: orangeColor,
                       press: () async {
-                        _orderController.statusOrder.value =
-                            statusToPickUpPoint;
+                        _orderController.setStatus(order, statusToPickUpPoint);
                         await _locationController.setDestinationLocation(
                             _orderController.pickUpPoint);
                         _locationController.getPolyPoints();
@@ -133,7 +132,7 @@ class _RunScreenState extends State<RunScreen> {
         actions: [
           TextButton(
               onPressed: () {
-                _orderController.statusOrder.value = statusCompleted;
+                _orderController.setStatus(order, statusCompleted);
                 Get.toNamed(RoutesClass.home);
               },
               child: Text(
@@ -159,7 +158,8 @@ class _RunScreenState extends State<RunScreen> {
         actions: [
           TextButton(
               onPressed: () async {
-                _orderController.statusOrder.value = statusStartTheTrip;
+                _orderController.setStatus(order, statusStartTheTrip);
+
                 await _locationController
                     .setDestinationLocation(_orderController.destination);
                 _locationController.getPolyPoints();
