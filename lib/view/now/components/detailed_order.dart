@@ -1,7 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/custommer_controller.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
-import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/models/place.dart';
 import 'package:flutter/material.dart';
@@ -60,25 +59,9 @@ class _DetailedOrderState extends State<DetailedOrder> {
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: defaultPadding),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: defaultPadding),
-                          child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/image_splash.png'),
-                            radius: defaultSizeImageSmall,
-                          ),
-                        ),
-                        Text(
-                          _custommerController.custommer!.tenkhachhang,
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                      ],
-                    ),
+                  InfoLine(
+                    title: 'Tên khách hàng',
+                    content: _custommerController.custommer!.tenkhachhang,
                   ),
                   InfoLine(
                     title: 'Số điện thoại',

@@ -208,6 +208,29 @@ class FDriverAppServices {
     }
   }
 
+  //Lấy danh sách đơn đề xuất cho tài xế
+  static Future<List<OrderModel>?> fetchRecommendOrderList(int id) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/DeXuatChuyenXe/${id}/${id}/${id}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['message']);
+        return null;
+      }
+      List<OrderModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(OrderModel.fromJson(item));
+      }
+      return tutorList;
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
   //Lấy danh sách tất đơn đã đặt
   static Future<List<OrderModel>?> fetchOrderCalendarList(
       int id, String trangThai) async {
@@ -320,6 +343,50 @@ class FDriverAppServices {
         Get.snackbar('Lỗi cập nhật trạng thái!', data['data']);
       }
       return data['error'];
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Cập nhật trạng thái hoạt động
+  static Future<bool?> fetchUpdateStatusActivate(
+      int idTaiXe, int trangThai) async {
+    final response = await http.patch(
+      Uri.parse(
+          'https://cn-api.fteamlp.top/api/taixe/CapNhatTrangThaiHoatDong/${trangThai}/${idTaiXe}'),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi cập nhật trạng thái!', data['message']);
+      }
+      return data['error'];
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
+  //Nhận đơn hàng
+  static fetchTakeOrder(
+    String idTaiXe,
+    String idChuyenXe,
+  ) async {
+    var map = {};
+    map['id_taixe'] = idTaiXe;
+    map['id_chuyenxe'] = idChuyenXe;
+
+    final response = await http.patch(
+        Uri.parse('https://cn-api.fteamlp.top/api/users/UpdateChuyenDi'),
+        body: map);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == 0) {
+        Get.snackbar('Lỗi nhận đơn!', data['message']);
+      } else {
+        print(data['message']);
+      }
     } else {
       Get.snackbar('Lỗi khi tải dữ liệu!',
           'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');

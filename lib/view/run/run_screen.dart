@@ -1,4 +1,5 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/models/order_model.dart';
@@ -19,6 +20,7 @@ class RunScreen extends StatefulWidget {
 class _RunScreenState extends State<RunScreen> {
   var _locationController = Get.find<LocationController>();
   var _orderController = Get.find<OrderController>();
+  var _homeController = Get.find<HomeController>();
 
   OrderModel order = Get.arguments;
 
@@ -40,7 +42,8 @@ class _RunScreenState extends State<RunScreen> {
                       text: 'Tới điểm đón',
                       color: orangeColor,
                       press: () async {
-                        _orderController.setStatus(order, statusToPickUpPoint);
+                        _orderController.setStatus(
+                            order.idChuyenxe.toString(), statusToPickUpPoint);
                         await _locationController.setDestinationLocation(
                             _orderController.pickUpPoint);
                         _locationController.getPolyPoints();
@@ -112,6 +115,7 @@ class _RunScreenState extends State<RunScreen> {
         ),
         Ticket(
           order: order,
+          idTaiXe: _homeController.idDriver.value,
         ),
       ]),
     );
@@ -132,8 +136,9 @@ class _RunScreenState extends State<RunScreen> {
         actions: [
           TextButton(
               onPressed: () {
-                _orderController.setStatus(order, statusCompleted);
-                Get.toNamed(RoutesClass.home);
+                _orderController.setStatus(
+                    order.idChuyenxe.toString(), statusCompleted);
+                Get.toNamed(RoutesClass.nowHome);
               },
               child: Text(
                 'Xác nhận',
@@ -158,7 +163,8 @@ class _RunScreenState extends State<RunScreen> {
         actions: [
           TextButton(
               onPressed: () async {
-                _orderController.setStatus(order, statusStartTheTrip);
+                _orderController.setStatus(
+                    order.idChuyenxe.toString(), statusStartTheTrip);
 
                 await _locationController
                     .setDestinationLocation(_orderController.destination);

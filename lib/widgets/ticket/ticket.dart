@@ -11,22 +11,22 @@ import 'package:fdriver/widgets/ticket/components/action_order.dart';
 import 'package:fdriver/widgets/ticket/components/info_base.dart';
 import 'package:fdriver/widgets/ticket/components/ticket_pop_up.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class Ticket extends StatefulWidget {
-  const Ticket({Key? key, required this.order}) : super(key: key);
+  const Ticket({Key? key, required this.order, required this.idTaiXe})
+      : super(key: key);
   final OrderModel order;
+  final String idTaiXe;
 
   @override
-  State<Ticket> createState() => _TicketState(order: order);
+  State<Ticket> createState() => _TicketState(order: order, idTaiXe: idTaiXe);
 }
 
 class _TicketState extends State<Ticket> {
-  _TicketState({required this.order});
+  _TicketState({required this.order, required this.idTaiXe});
   final OrderModel order;
+  final String idTaiXe;
 
   var _custommerController = Get.put(CustommerController());
   var _driverController = Get.put(DriverController());
@@ -120,81 +120,20 @@ class _TicketState extends State<Ticket> {
                 ),
                 order.trangthai == statusWaitForConfirmation
                     ? ActionOrder(
-                        title: 'Hủy chuyến',
-                        color: Colors.red,
+                        title: 'Nhận đơn',
+                        color: Theme.of(context).primaryColor,
                         press: () {
-                          _CancelOrder(context);
+                          TakeOrder(context);
                         },
                       )
-                    : order.trangthai == statusBooked
-                        ? order.ngaydon !=
-                                DateFormat("dd-MM-yyyy").format(DateTime.now())
-                            ? ActionOrder(
-                                title: 'Hủy chuyến',
-                                color: Colors.red,
-                                press: () {
-                                  _CancelOrder(context);
-                                },
-                              )
-                            : Container()
-                        : order.trangthai == statusCompleted
-                            ? order.danhgia == null
-                                ? ActionOrder(
-                                    title: 'Đánh giá',
-                                    color: Theme.of(context).primaryColor,
-                                    press: () {
-                                      _RatingOrder(context);
-                                    },
-                                  )
-                                : Container()
-                            : Container()
+                    : Container()
               ],
             ),
           )),
     );
   }
 
-  Future<dynamic> _RatingOrder(BuildContext context) {
-    double diemDanhGia = 3;
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          'Chuyến đi',
-          style: Theme.of(context).textTheme.headline4,
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Đánh giá chuyến đi của bạn',
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            RatingBar.builder(
-                minRating: 1,
-                initialRating: 3,
-                itemBuilder: (context, index) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                onRatingUpdate: (rantingvalue) {
-                  diemDanhGia = rantingvalue;
-                  print('Sao hiện tại: ${rantingvalue}');
-                })
-          ],
-        ),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: Text(
-                'Xác nhận',
-              )),
-        ],
-      ),
-    );
-  }
-
-  Future<dynamic> _CancelOrder(BuildContext context) {
+  Future<dynamic> TakeOrder(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -203,7 +142,7 @@ class _TicketState extends State<Ticket> {
           style: Theme.of(context).textTheme.headline4,
         ),
         content: Text(
-          'Bạn chắc chắn muốn hủy chuyến không?',
+          'Đồng ý nhận đơn?',
           style: Theme.of(context).textTheme.headline6,
         ),
         actions: [
@@ -213,12 +152,17 @@ class _TicketState extends State<Ticket> {
               },
               child: Text(
                 'Không',
+                style: TextStyle(color: Colors.red),
               )),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                _orderController.takeOrder(
+                    idTaiXe, order.idChuyenxe.toString());
+                Get.back();
+              },
               child: Text(
-                'Hủy chuyến',
-                style: TextStyle(color: Colors.red),
+                'Nhận đơn',
+                style: TextStyle(color: Theme.of(context).primaryColor),
               )),
         ],
       ),

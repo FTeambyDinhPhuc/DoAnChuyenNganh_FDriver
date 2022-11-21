@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:fdriver/constants.dart';
-import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/order_model.dart';
+import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/services/fdriver_app_services.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class OrderController extends GetxController {
   //Trạng thái đơn lấy từ api
@@ -33,10 +33,12 @@ class OrderController extends GetxController {
   //danh sách order
   //danh sách order
   RxList<OrderModel>? nowOrderList;
+  RxList<OrderModel>? recommendOrderList;
   RxList<OrderModel>? calendarOrderList;
   RxList<OrderModel>? statisticalOrderList;
 
   var isLoadingNowScreen = true.obs;
+  var isLoadingRecommendScreen = true.obs;
   var isLoadingOrderCalendarScreen = true.obs;
   var isLoadingStatisticalScreen = true.obs;
 
@@ -47,6 +49,35 @@ class OrderController extends GetxController {
     if (list != null) {
       nowOrderList = list.obs;
       isLoadingNowScreen.value = false;
+    }
+  }
+
+  //Lấy danh sách đơn hàng gợi ý
+  getRecommendOrderList(int id) async {
+    isLoadingRecommendScreen.value = true;
+    var listHienThi = await FDriverAppServices.fetchRecommendOrderList(id);
+    if (listHienThi != null) {
+      recommendOrderList = listHienThi.obs;
+      isLoadingRecommendScreen.value = false;
+      Timer.periodic(Duration(seconds: 2), (timer) async {
+        var listKiemTra = await FDriverAppServices.fetchRecommendOrderList(id);
+        if (listKiemTra != null) {
+          if (listKiemTra.length != recommendOrderList!.value.length) {
+            getRecommendOrderList(id);
+            if (listKiemTra.length > recommendOrderList!.value.length) {
+              Get.snackbar('Đơn hàng đề xuất', 'Có đơn đề xuất mới',
+                  onTap: (_) {
+                Get.toNamed(RoutesClass.recommendHome);
+              });
+            }
+          }
+        }
+        print("Đang đề xuất");
+        if (trangThaiHoatDong == 0) {
+          timer.cancel();
+          print("Dừng đề xuất");
+        }
+      });
     }
   }
 
@@ -165,11 +196,17 @@ class OrderController extends GetxController {
     destination = await _placeController.setViTri(order.diemden);
   }
 
-  setStatus(OrderModel order, String trangThai) async {
-    bool? updateStatusError = await FDriverAppServices.fetchUpdateStatusOrder(
-        order.idChuyenxe.toString(), trangThai);
+  //cập nhật trạng thái đơn hàng
+  setStatus(String idChuyenXe, String trangThai) async {
+    bool? updateStatusError =
+        await FDriverAppServices.fetchUpdateStatusOrder(idChuyenXe, trangThai);
     if (!updateStatusError!) {
       statusOrder.value = trangThai;
     }
+  }
+
+  //Nhận đơn hàng
+  takeOrder(String idTaiXe, String idChuyenXe) {
+    FDriverAppServices.fetchTakeOrder(idTaiXe, idChuyenXe);
   }
 }

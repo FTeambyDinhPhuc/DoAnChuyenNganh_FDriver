@@ -15,8 +15,8 @@ class OrderCalendarScreen extends StatefulWidget {
 }
 
 class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
-  var _orderController = Get.put(OrderController());
   var _homeController = Get.find<HomeController>();
+  var _orderController = Get.find<OrderController>();
 
   @override
   void initState() {
@@ -57,7 +57,7 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset('assets/images/bongocat.gif'),
+                          Image.asset('assets/images/image_no_order.png'),
                           Text(
                             'Bạn không có lịch chạy nào!',
                             style: Theme.of(context).textTheme.headline2,
@@ -66,8 +66,15 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
                       ),
                     )
                   : Expanded(
-                      child: ListOrder(
-                        list: _orderController.calendarOrderList!,
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          _orderController.selectGetOrderCalendarList(
+                              int.parse(_homeController.idDriver.value));
+                        },
+                        child: ListOrder(
+                          list: _orderController.calendarOrderList!,
+                          homeController: _homeController,
+                        ),
                       ),
                     ),
         ),

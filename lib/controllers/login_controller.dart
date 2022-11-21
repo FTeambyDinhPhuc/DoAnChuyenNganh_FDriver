@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   Future<bool> saveLogin(DriverModel driver) async {
     await BaseSharedPreferences.setString(
         'id_taixe', driver.idTaixe.toString());
+    await BaseSharedPreferences.setString('mk_taixe', passwordController.text);
     return true;
   }
 
@@ -24,7 +25,7 @@ class LoginController extends GetxController {
     if (driver != null) {
       await BaseSharedPreferences.remove('id_taixe');
       saveLogin(driver);
-      Get.offAllNamed(RoutesClass.home);
+      Get.offAllNamed(RoutesClass.accoutHome);
     } else
       print("Dữ liệu tài khoản chưa được đổ vào!");
   }

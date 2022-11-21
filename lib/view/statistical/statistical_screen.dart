@@ -15,8 +15,8 @@ class StatisticalScreen extends StatefulWidget {
 }
 
 class _StatisticalScreenState extends State<StatisticalScreen> {
-  var _orderController = Get.put(OrderController());
   var _homeController = Get.find<HomeController>();
+  var _orderController = Get.find<OrderController>();
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Image.asset('assets/images/bongocat.gif'),
+                          Image.asset('assets/images/image_no_order.png'),
                           Text(
                             'Không có dữ liệu thống kê!',
                             style: Theme.of(context).textTheme.headline2,
@@ -70,8 +70,15 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                       ),
                     )
                   : Expanded(
-                      child: ListOrder(
-                        list: _orderController.statisticalOrderList!,
+                      child: RefreshIndicator(
+                        onRefresh: () async {
+                          _orderController.selectGetStatisticalOrderList(
+                              int.parse(_homeController.idDriver.value));
+                        },
+                        child: ListOrder(
+                          list: _orderController.statisticalOrderList!,
+                          homeController: _homeController,
+                        ),
                       ),
                     )),
         ],

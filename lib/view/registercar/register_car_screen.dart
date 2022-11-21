@@ -1,6 +1,5 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/register_controller.dart';
-import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/registercar/components/select_orther_register_car.dart';
 import 'package:fdriver/view/registercar/components/text_field_register_car.dart';
 

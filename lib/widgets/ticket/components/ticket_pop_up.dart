@@ -88,13 +88,46 @@ class TicketPopup extends StatelessWidget {
                           child: Center(
                             child: CircleAvatar(
                               backgroundImage: AssetImage(
-                                order.idTaixe == null
+                                order.idKhachhang == null
                                     ? 'assets/images/image_avatar_null.png'
-                                    : driver!.hinh,
+                                    : custommer!.hinh,
                               ),
                               radius: defaultSizeImage,
                             ),
                           ),
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Tên khách hàng',
+                          describe: custommer!.tenkhachhang,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Số điện thoại khách',
+                          describe: custommer!.sodienthoai,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Điểm đón',
+                          describe: diemDon.value,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Điểm đến',
+                          describe: diemDen.value,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Ngày bắt đầu',
+                          describe: order.ngaydon,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Giờ bắt đầu',
+                          describe: order.giodon,
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Quảng đường',
+                          describe: '${order.quangduong.toString()} km',
+                        ),
+                        InfoOrder(
+                          titleInfo: 'Tổng tiền',
+                          describe:
+                              '${moneyFormat.format(order.thanhtien)} vnđ',
                         ),
                         InfoOrder(
                           titleInfo: 'Tên tài xế',
@@ -129,39 +162,6 @@ class TicketPopup extends StatelessWidget {
                         InfoOrder(
                           titleInfo: 'Số chổ',
                           describe: order.loaixe.toString(),
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Tên khách hàng',
-                          describe: custommer!.tenkhachhang,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Số điện thoại khách',
-                          describe: custommer!.sodienthoai,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Điểm đón',
-                          describe: diemDon.value,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Điểm đến',
-                          describe: diemDen.value,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Ngày bắt đầu',
-                          describe: order.ngaydon,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Giờ bắt đầu',
-                          describe: order.giodon,
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Quảng đường',
-                          describe: '${order.quangduong.toString()} km',
-                        ),
-                        InfoOrder(
-                          titleInfo: 'Tổng tiền',
-                          describe:
-                              '${moneyFormat.format(order.thanhtien)} vnđ',
                         ),
                         InfoOrder(
                           titleInfo: 'Đánh giá chuyến đi',

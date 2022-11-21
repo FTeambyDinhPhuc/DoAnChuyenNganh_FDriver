@@ -1,8 +1,6 @@
 import 'package:fdriver/constants.dart';
-
 import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
-
 import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/now/components/detailed_order.dart';
 import 'package:fdriver/view/now/components/title_order_now.dart';
@@ -19,8 +17,8 @@ class NowScreen extends StatefulWidget {
 }
 
 class _NowScreenState extends State<NowScreen> {
-  var _orderController = Get.put(OrderController());
   var _homeController = Get.find<HomeController>();
+  var _orderController = Get.find<OrderController>();
 
   @override
   void initState() {
@@ -42,7 +40,7 @@ class _NowScreenState extends State<NowScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset('assets/images/bongocat.gif'),
+                    Image.asset('assets/images/image_no_order.png'),
                     Text(
                       'Hôm nay bạn không có lịch!',
                       style: Theme.of(context).textTheme.headline2,

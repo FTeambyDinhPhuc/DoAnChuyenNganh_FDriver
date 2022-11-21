@@ -1,8 +1,10 @@
 //quan trọng không được dụng vào
 
 import 'package:flutter/animation.dart';
+import 'package:get/get.dart';
 
 late String google_map_api_key;
+var trangThaiHoatDong = 0.obs;
 
 //color
 Color primaryColor = const Color.fromRGBO(63, 193, 201, 1);
@@ -35,6 +37,7 @@ const String statusBooked = 'Đã đặt';
 const String statusToPickUpPoint = 'Đến điểm đón';
 const String statusStartTheTrip = 'Khởi hành';
 const String statusCompleted = 'Hoàn thành';
+const String statusRequestCancellation = 'Yêu cầu hủy';
 const String statusCancelled = 'Đã hủy';
 //Title thông báo snackbar
 const String titleSnackbarAccount = 'Thông tin tài khoản';

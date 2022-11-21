@@ -19,7 +19,11 @@ class RoutesClass {
   static String login = "/login";
   static String register = "/register";
   static String registerCar = "/registercar";
-  static String home = "/";
+  static String accoutHome = "/accounthome";
+  static String nowHome = "/nowhome";
+  static String recommendHome = "/recommendhome";
+  static String calendarHome = "/calendarhome";
+  static String statisticalHome = "/statisticalhome";
   static String changePassword = "/changepassword";
   static String run = "/run";
 
@@ -29,8 +33,32 @@ class RoutesClass {
         page: () => const SplashScreen(),
         binding: SplashBinding()),
     GetPage(
-        name: home,
-        page: () => const MyHomePage(),
+        name: accoutHome,
+        page: () => const MyHomePage(selectedIndex: 0),
+        binding: HomeBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: nowHome,
+        page: () => const MyHomePage(selectedIndex: 1),
+        binding: HomeBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: recommendHome,
+        page: () => const MyHomePage(selectedIndex: 2),
+        binding: HomeBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: calendarHome,
+        page: () => const MyHomePage(selectedIndex: 3),
+        binding: HomeBinding(),
+        transition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 300)),
+    GetPage(
+        name: statisticalHome,
+        page: () => const MyHomePage(selectedIndex: 4),
         binding: HomeBinding(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 300)),

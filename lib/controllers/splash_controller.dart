@@ -27,8 +27,9 @@ class SplashController extends GetxController {
 
   checkLogin() async {
     String idTaiXe = await BaseSharedPreferences.getString('id_taixe');
-    if (idTaiXe != '') {
-      Get.offNamed(RoutesClass.home);
+    String passTaiXe = await BaseSharedPreferences.getString('mk_taixe');
+    if (idTaiXe != '' && passTaiXe != '') {
+      Get.offNamed(RoutesClass.accoutHome);
     } else {
       Get.offNamed(RoutesClass.selectLogin);
     }

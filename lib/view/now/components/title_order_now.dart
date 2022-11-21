@@ -1,7 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class TitleOrderNow extends StatelessWidget {
   const TitleOrderNow({

@@ -1,7 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/controllers/register_controller.dart';
-import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/register/components/select_orther_register.dart';
 import 'package:fdriver/view/register/components/text_field_register.dart';
 import 'package:fdriver/widgets/button_full_width.dart';
