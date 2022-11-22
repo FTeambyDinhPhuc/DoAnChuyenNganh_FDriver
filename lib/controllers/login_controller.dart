@@ -23,9 +23,11 @@ class LoginController extends GetxController {
     DriverModel? driver = await FDriverAppServices.fetchLogin(
         numberPhoneController.text, passwordController.text);
     if (driver != null) {
-      await BaseSharedPreferences.remove('id_taixe');
-      saveLogin(driver);
-      Get.offAllNamed(RoutesClass.accoutHome);
+      BaseSharedPreferences.remove('id_taixe');
+      bool checkSaveAccount = await saveLogin(driver);
+      if (checkSaveAccount) {
+        Get.offAllNamed(RoutesClass.accoutHome);
+      }
     } else
       print("Dữ liệu tài khoản chưa được đổ vào!");
   }

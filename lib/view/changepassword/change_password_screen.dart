@@ -1,5 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/driver_controller.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/view/changepassword/components/text_field_change_password.dart';
 import 'package:fdriver/widgets/button_full_width.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   var _driverController = Get.find<DriverController>();
+  var _homeController = Get.find<HomeController>();
 
   @override
   void initState() {
@@ -25,40 +27,35 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.only(left: 19, top: 0, right: 19, bottom: 0),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Obx(() => _driverController.isLoadingChangPass.value
-                ? Center(
-                    child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.blue.shade200)),
-                  )
-                : Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFiledChangePassword(
-                          driverController: _driverController),
-                      ButtonFullWidth(
-                          text: "Xác nhận",
-                          press: () {
-                            Get.back();
-                            Get.snackbar(titleSnackbarAccount,
-                                'Đổi mật khẩu thành công');
-                          }),
-                      const SizedBox(height: defaultPadding),
-                      ButtonFullWidth(
-                          text: "Hủy",
-                          color: Colors.red.shade300,
-                          press: () {
-                            Get.back();
-                          }),
-                    ],
-                  )),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 19, top: 0, right: 19, bottom: 0),
+          child: Center(
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFiledChangePassword(driverController: _driverController),
+                ButtonFullWidth(
+                    text: "Xác nhận",
+                    press: () {
+                      _driverController.updatePass(
+                          _homeController.idDriver.value,
+                          context,
+                          _homeController);
+                    }),
+                const SizedBox(height: defaultPadding),
+                ButtonFullWidth(
+                    text: "Hủy",
+                    color: Colors.red.shade300,
+                    press: () {
+                      Get.back();
+                    }),
+              ],
+            )),
           ),
         ),
-      )),
+      ),
     );
   }
 }

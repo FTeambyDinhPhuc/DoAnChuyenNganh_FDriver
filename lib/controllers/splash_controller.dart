@@ -15,8 +15,8 @@ class SplashController extends GetxController {
     GoogleMapApiModel? googleMapApi =
         await FDriverAppServices.fetchGoogleMapAPIKey();
     if (googleMapApi != null) {
-      await BaseSharedPreferences.remove('key_google_map');
-      await saveKeyGoogleMap(googleMapApi);
+      BaseSharedPreferences.remove('key_google_map');
+      saveKeyGoogleMap(googleMapApi);
       google_map_api_key =
           await BaseSharedPreferences.getString('key_google_map');
       checkLogin();

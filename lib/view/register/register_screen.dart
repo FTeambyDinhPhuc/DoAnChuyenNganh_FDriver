@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   registerController: _registerController,
                 ),
                 ButtonFullWidth(
-                    text: "Tiếp tục",
+                    text: "Đăng ký",
                     press: () async {
                       if (_placeController.idSourceLocation.isNotEmpty) {
                         await _placeController.setViTriHoatDong();

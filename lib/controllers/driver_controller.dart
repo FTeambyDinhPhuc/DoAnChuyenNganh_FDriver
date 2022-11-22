@@ -1,4 +1,5 @@
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/driver_model.dart';
 import 'package:fdriver/models/place.dart';
@@ -9,12 +10,10 @@ import 'package:image_picker/image_picker.dart';
 
 class DriverController extends GetxController {
   var _placeController = Get.put(PlaceSearchController());
+
   RxString currentAvatar = ''.obs;
   //kiểm tra load màn hình account
   var isLoading = true.obs;
-
-  //kiểm trả load màn hình đổi mật khẩu
-  var isLoadingChangPass = true.obs;
 
   //khởi tạo biến tài xế
   DriverModel? driver;
@@ -46,7 +45,6 @@ class DriverController extends GetxController {
     matkhaucuController = TextEditingController();
     matkhaumoiController = TextEditingController();
     xacnhanmatkhaumoiController = TextEditingController();
-    isLoadingChangPass.value = false;
   }
 
   //bật tắt trạng thái hoạt động
@@ -55,6 +53,93 @@ class DriverController extends GetxController {
         await FDriverAppServices.fetchUpdateStatusActivate(idTaiXe, trangThai);
     if (!updateStatusActivateError!) {
       getDriver(idTaiXe);
+    }
+  }
+
+  //Đổi mật khẩu
+  updatePass(String idTaiXe, BuildContext context,
+      HomeController _homeController) async {
+    if (matkhaucuController.text.isNotEmpty &&
+        matkhaumoiController.text.isNotEmpty &&
+        xacnhanmatkhaumoiController.text.isNotEmpty) {
+      if (matkhaucuController.text != _homeController.passDriver.value) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              'Sai mật khẩu!',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            content: Text(
+              'Vui lòng nhập lại',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    'Đồng ý',
+                  )),
+            ],
+          ),
+        );
+      } else if (matkhaumoiController.text !=
+          xacnhanmatkhaumoiController.text) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              'Mật khẩu xác nhận không đúng!',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            content: Text(
+              'Vui lòng nhập lại',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    'Đồng ý',
+                  )),
+            ],
+          ),
+        );
+      } else {
+        bool? updatePassError = await FDriverAppServices.fetchUpdatePass(
+            idTaiXe, xacnhanmatkhaumoiController.text);
+        if (!updatePassError!) {
+          _homeController.logout();
+          Get.snackbar('Tài khoản', 'Đổi mật khẩu thành công');
+        }
+      }
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(
+            'Bạn nhập thiếu thông tin!',
+            style: Theme.of(context).textTheme.headline4,
+          ),
+          content: Text(
+            'Vui lòng nhập lại',
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  'Đồng ý',
+                )),
+          ],
+        ),
+      );
     }
   }
 

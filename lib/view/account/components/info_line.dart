@@ -11,23 +11,26 @@ class InfoLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: defaultPadding),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      padding: EdgeInsets.all(defaultPaddingSmall),
+      margin: EdgeInsets.only(bottom: defaultPaddingSmall),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(defaultCircular)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${title}: ',
+            title,
+            style: Theme.of(context).textTheme.headline5,
+          ),
+          const SizedBox(
+            height: defaultPaddingSuperSmall,
+          ),
+          Text(
+            content,
             style: Theme.of(context).textTheme.headline6,
           ),
-          Container(
-            width: Get.width / 2,
-            child: Text(
-              content,
-              style: Theme.of(context).textTheme.headline6,
-              textAlign: TextAlign.end,
-            ),
-          )
         ],
       ),
     );

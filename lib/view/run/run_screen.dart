@@ -27,6 +27,7 @@ class _RunScreenState extends State<RunScreen> {
   @override
   void initState() {
     _orderController.getDataForRunScreen(order);
+    _locationController.updateCurrentLocation(order.idTaixe.toString());
     super.initState();
   }
 
@@ -47,8 +48,6 @@ class _RunScreenState extends State<RunScreen> {
                         await _locationController.setDestinationLocation(
                             _orderController.pickUpPoint);
                         _locationController.getPolyPoints();
-                        _locationController
-                            .updateCurrentLocation(order.idTaixe.toString());
                       })
                   : _orderController.statusOrder.value == statusToPickUpPoint
                       ? MyButtonSmall(
@@ -62,7 +61,6 @@ class _RunScreenState extends State<RunScreen> {
                           color: Theme.of(context).primaryColor,
                           press: () {
                             _locationController.stop = true;
-
                             XacNhanHoanThanh(context);
                           }),
             ),

@@ -3,9 +3,11 @@ import 'package:fdriver/controllers/car_controller.dart';
 import 'package:fdriver/controllers/driver_controller.dart';
 import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
+import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/view/account/components/action_button.dart';
 import 'package:fdriver/view/account/components/info_account.dart';
 import 'package:fdriver/view/account/components/info_car.dart';
+import 'package:fdriver/widgets/button_full_width_outline.dart';
 import 'package:fdriver/widgets/button_icon_small.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,8 +42,7 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Obx(
           () => Column(
             children: [
-              _driverController.isLoading.value ||
-                      _carController.isLoading.value
+              _driverController.isLoading.value
                   ? Container(
                       constraints: BoxConstraints(minHeight: Get.height / 1.6),
                       child: Center(
@@ -75,14 +76,21 @@ class _AccountScreenState extends State<AccountScreen> {
                                   ? Colors.green
                                   : Colors.black,
                               press: () {
-                                if (trangThaiHoatDong == 0) {
-                                  _driverController.updateStatusActivate(
-                                      int.parse(_homeController.idDriver.value),
-                                      1);
+                                if (_carController.isLoading.value) {
+                                  Get.snackbar(
+                                      'Tài khoản', 'Chưa có xe để hoạt động');
                                 } else {
-                                  _driverController.updateStatusActivate(
-                                      int.parse(_homeController.idDriver.value),
-                                      0);
+                                  if (trangThaiHoatDong == 0) {
+                                    _driverController.updateStatusActivate(
+                                        int.parse(
+                                            _homeController.idDriver.value),
+                                        1);
+                                  } else {
+                                    _driverController.updateStatusActivate(
+                                        int.parse(
+                                            _homeController.idDriver.value),
+                                        0);
+                                  }
                                 }
                               },
                             )
@@ -98,9 +106,24 @@ class _AccountScreenState extends State<AccountScreen> {
                                 padding: const EdgeInsets.only(
                                     top: defaultPadding,
                                     bottom: defaultPaddingBottom),
-                                child: InfoCar(
-                                  carController: _carController,
-                                )),
+                                child: _carController.isLoading.value
+                                    ? GestureDetector(
+                                        onTap: () {
+                                          Get.toNamed(RoutesClass.registerCar);
+                                        },
+                                        child: Text(
+                                          "Chưa đăng ký xe",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline4!
+                                              .copyWith(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold),
+                                        ),
+                                      )
+                                    : InfoCar(
+                                        carController: _carController,
+                                      )),
                           ],
                         )
                       ],

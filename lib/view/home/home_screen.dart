@@ -41,53 +41,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        body: SafeArea(
-          child: _homeController.idDriver.value != '' &&
-                  _homeController.passDriver.value != ''
-              ? _widgetOptions.elementAt(selectedIndex.value)
-              : Center(
-                  child: CircularProgressIndicator(
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
-                ),
-        ),
-        bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-              indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
-              labelTextStyle: MaterialStateProperty.all(
-                  const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))),
-          child: NavigationBar(
-            animationDuration: const Duration(milliseconds: 300),
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-            height: 60,
-            selectedIndex: selectedIndex.value,
-            onDestinationSelected: _onItemTapped,
-            destinations: [
-              NavigationDestination(
-                  icon: Icon(Icons.account_box_outlined),
-                  selectedIcon: Icon(Icons.account_box),
-                  label: 'Account'),
-              NavigationDestination(
-                  icon: Icon(Icons.toys_outlined),
-                  selectedIcon: Icon(Icons.toys),
-                  label: 'Now'),
-              NavigationDestination(
-                  icon: Icon(Icons.assignment_outlined),
-                  selectedIcon: Icon(Icons.assignment_sharp),
-                  label: 'Take order'),
-              NavigationDestination(
-                  icon: Icon(Icons.calendar_month_outlined),
-                  selectedIcon: Icon(Icons.calendar_month),
-                  label: 'Calendar'),
-              NavigationDestination(
-                  icon: Icon(Icons.checklist_outlined),
-                  selectedIcon: Icon(Icons.checklist),
-                  label: 'Statistical'),
-            ],
-          ),
-        ),
+    return Scaffold(
+      body: SafeArea(
+        child: Obx(() => _homeController.idDriver != '' &&
+                _homeController.passDriver != ''
+            ? _widgetOptions.elementAt(selectedIndex.value)
+            : Center(
+                child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
+              )),
+      ),
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+            indicatorColor: Theme.of(context).primaryColor.withOpacity(0.5),
+            labelTextStyle: MaterialStateProperty.all(
+                const TextStyle(fontSize: 12, fontWeight: FontWeight.bold))),
+        child: Obx(() => NavigationBar(
+              animationDuration: const Duration(milliseconds: 300),
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              height: 60,
+              selectedIndex: selectedIndex.value,
+              onDestinationSelected: _onItemTapped,
+              destinations: [
+                NavigationDestination(
+                    icon: Icon(Icons.account_box_outlined),
+                    selectedIcon: Icon(Icons.account_box),
+                    label: 'Account'),
+                NavigationDestination(
+                    icon: Icon(Icons.toys_outlined),
+                    selectedIcon: Icon(Icons.toys),
+                    label: 'Now'),
+                NavigationDestination(
+                    icon: Icon(Icons.assignment_outlined),
+                    selectedIcon: Icon(Icons.assignment_sharp),
+                    label: 'Take order'),
+                NavigationDestination(
+                    icon: Icon(Icons.calendar_month_outlined),
+                    selectedIcon: Icon(Icons.calendar_month),
+                    label: 'Calendar'),
+                NavigationDestination(
+                    icon: Icon(Icons.checklist_outlined),
+                    selectedIcon: Icon(Icons.checklist),
+                    label: 'Statistical'),
+              ],
+            )),
       ),
     );
   }

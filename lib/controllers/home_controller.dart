@@ -13,6 +13,7 @@ class HomeController extends GetxController {
 
   logout() async {
     await BaseSharedPreferences.remove('id_taixe');
+    await BaseSharedPreferences.remove('mk_taixe');
     Get.offAllNamed(RoutesClass.splash);
   }
 }

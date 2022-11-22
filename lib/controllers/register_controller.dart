@@ -15,8 +15,6 @@ class RegisterController extends GetxController {
   late TextEditingController soGheController;
   late TextEditingController hangXeController;
 
-  int? idTaiXe;
-
   //Đăng ký tài khoản
   register(String diaChi, String khuVucHoatDong) async {
     if (matkhauController.text == xacnhanmatkhauController.text) {
@@ -28,12 +26,9 @@ class RegisterController extends GetxController {
           diaChi,
           khuVucHoatDong);
       if (!registerError!) {
-        DriverModel? taiXe = await FDriverAppServices.fetchLogin(
-            sodienthoaiController.text, matkhauController.text);
-        idTaiXe = taiXe!.idTaixe;
-        Get.toNamed(RoutesClass.registerCar);
+        Get.offAllNamed(RoutesClass.login);
         Get.snackbar(titleSnackbarAccount,
-            'Đăng ký thành công tài khoản,\ntiếp tục đăng ký xe');
+            'Đăng ký thành công tài khoản,\nLiên hệ tổng đài để kích hoạt tài khoản');
       } else
         print("Đăng ký lỗi!");
     } else {
@@ -42,14 +37,11 @@ class RegisterController extends GetxController {
   }
 
   //Đăng ký xe
-  registerCar() async {
-    bool? registerError = await FDriverAppServices.fetchRegisterCar(
-        idTaiXe.toString(),
-        bienSoController.text,
-        soGheController.text,
-        hangXeController.text);
+  registerCar(String idTaiXe) async {
+    bool? registerError = await FDriverAppServices.fetchRegisterCar(idTaiXe,
+        bienSoController.text, soGheController.text, hangXeController.text);
     if (!registerError!) {
-      Get.offAllNamed(RoutesClass.login);
+      Get.offAllNamed(RoutesClass.accoutHome);
       Get.snackbar(titleSnackbarAccount, 'Đăng ký thành công');
     } else
       print("Đăng ký lỗi!");

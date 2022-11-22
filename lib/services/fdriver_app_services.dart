@@ -184,6 +184,30 @@ class FDriverAppServices {
     }
   }
 
+  //cập nhật mật khẩu tài xế
+  static Future<bool?> fetchUpdatePass(
+    String idTaiXe,
+    String matKhau,
+  ) async {
+    var map = {};
+    map['id_taixe'] = idTaiXe;
+    map['matkhau'] = matKhau;
+
+    final response = await http.patch(
+        Uri.parse('https://cn-api.fteamlp.top/api/taixe/CapNhatMatKhauTX'),
+        body: map);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi đổi mật khẩu!', data['message']);
+      }
+      return data['error'];
+    } else {
+      Get.snackbar('Lỗi khi tải dữ liệu!',
+          'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');
+    }
+  }
+
   //Lấy danh sách đơn hàng hôm nay
   static Future<List<OrderModel>?> fetchNowOrderList(
       int id, String dateNow) async {
