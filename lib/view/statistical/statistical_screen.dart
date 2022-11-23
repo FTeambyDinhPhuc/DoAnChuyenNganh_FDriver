@@ -16,7 +16,7 @@ class StatisticalScreen extends StatefulWidget {
 
 class _StatisticalScreenState extends State<StatisticalScreen> {
   var _homeController = Get.find<HomeController>();
-  var _orderController = Get.find<OrderController>();
+  var _orderController = Get.put(OrderController());
 
   @override
   void initState() {

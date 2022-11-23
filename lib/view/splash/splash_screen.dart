@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _splashController.getGoogleMapAPIKey();
+    _splashController.getDataApp();
   }
 
   @override

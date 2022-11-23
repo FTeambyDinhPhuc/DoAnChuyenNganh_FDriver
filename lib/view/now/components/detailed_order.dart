@@ -87,6 +87,10 @@ class _DetailedOrderState extends State<DetailedOrder> {
                     title: 'Thành tiền',
                     content: '${moneyFormat.format(order.thanhtien)} vnđ',
                   ),
+                  InfoLine(
+                    title: 'Trạng thái',
+                    content: order.trangthai,
+                  ),
                 ],
               ));
   }

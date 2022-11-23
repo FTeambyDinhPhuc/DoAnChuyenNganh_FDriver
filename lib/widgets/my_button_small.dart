@@ -1,12 +1,12 @@
 import 'package:fdriver/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class MyButtonSmall extends StatelessWidget {
+class ButtonTextIcon extends StatelessWidget {
   final String text;
   final Function press;
   Color? color;
-  MyButtonSmall({Key? key, required this.text, required this.press, this.color})
+  ButtonTextIcon(
+      {Key? key, required this.text, required this.press, this.color})
       : super(key: key);
 
   @override

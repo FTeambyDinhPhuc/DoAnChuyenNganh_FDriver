@@ -10,7 +10,6 @@ class CustommerController extends GetxController {
 
   //Lấy thông tin tài khoản
   getCustommer(int id) async {
-    isLoading.value = true;
     custommer = await FDriverAppServices.fetchCustommer(id);
     if (custommer != null) {
       isLoading.value = false;

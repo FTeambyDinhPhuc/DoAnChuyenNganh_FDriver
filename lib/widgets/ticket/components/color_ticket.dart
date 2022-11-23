@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 Color ColorTicket(OrderModel order) {
   if (order.trangthai == statusCancelled) {
     return Colors.red;
-  } else if (order.trangthai == statusWaitForConfirmation) {
+  } else if (order.trangthai == statusWaitForConfirmation ||
+      order.trangthai == statusRequestCancellation) {
     return Colors.grey;
   }
   return primaryColor;

@@ -6,23 +6,19 @@ import 'package:fdriver/services/fdriver_app_services.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
-  Future<bool> saveKeyGoogleMap(GoogleMapApiModel googleMap) async {
-    await BaseSharedPreferences.setString('key_google_map', googleMap.apiKey);
-    return true;
-  }
-
-  getGoogleMapAPIKey() async {
+  Future<bool> getGoogleMapAPIKey() async {
+    bool ktLoadDuLieu = false;
     GoogleMapApiModel? googleMapApi =
         await FDriverAppServices.fetchGoogleMapAPIKey();
     if (googleMapApi != null) {
-      BaseSharedPreferences.remove('key_google_map');
-      saveKeyGoogleMap(googleMapApi);
-      google_map_api_key =
-          await BaseSharedPreferences.getString('key_google_map');
-      checkLogin();
+      google_map_api_key = googleMapApi.apiKey;
+      if (google_map_api_key != "") {
+        ktLoadDuLieu = true;
+      }
     } else {
-      print("Dữ liệu tài khoản chưa được đổ vào!");
+      print("Dữ liệu google api key chưa được đổ vào!");
     }
+    return ktLoadDuLieu;
   }
 
   checkLogin() async {
@@ -32,6 +28,15 @@ class SplashController extends GetxController {
       Get.offNamed(RoutesClass.accoutHome);
     } else {
       Get.offNamed(RoutesClass.selectLogin);
+    }
+  }
+
+  getDataApp() async {
+    bool ktGetGoogleAPIKey = await getGoogleMapAPIKey();
+    if (ktGetGoogleAPIKey) {
+      checkLogin();
+    } else {
+      getDataApp();
     }
   }
 }

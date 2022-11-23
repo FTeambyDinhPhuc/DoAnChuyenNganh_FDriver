@@ -29,13 +29,15 @@ class ActionButton extends StatelessWidget {
             Get.toNamed(RoutesClass.changePassword);
           },
         ),
-        const SizedBox(height: defaultPadding),
-        ButtonFullWidthOutline(
-          text: 'Đăng xuất',
-          color: Colors.red,
-          press: () {
-            _homeController.logout();
-          },
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: defaultPadding),
+          child: ButtonFullWidthOutline(
+            text: 'Đăng xuất',
+            color: Colors.red,
+            press: () {
+              _homeController.logout();
+            },
+          ),
         ),
       ],
     );

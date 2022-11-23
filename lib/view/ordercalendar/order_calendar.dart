@@ -16,7 +16,7 @@ class OrderCalendarScreen extends StatefulWidget {
 
 class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
   var _homeController = Get.find<HomeController>();
-  var _orderController = Get.find<OrderController>();
+  var _orderController = Get.put(OrderController());
 
   @override
   void initState() {

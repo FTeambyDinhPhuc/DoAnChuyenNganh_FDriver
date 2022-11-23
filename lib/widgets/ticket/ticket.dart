@@ -99,7 +99,7 @@ class _TicketState extends State<Ticket> {
             diemDen: diemDen,
             custommer: _custommerController.custommer,
             driver: _driverController.driver,
-            car: _carController.car,
+            car: _carController.carList?[0],
           );
         }));
       },

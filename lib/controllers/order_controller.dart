@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/routes/routes.dart';
@@ -60,23 +61,26 @@ class OrderController extends GetxController {
       recommendOrderList = listHienThi.obs;
       isLoadingRecommendScreen.value = false;
       Timer.periodic(Duration(seconds: 2), (timer) async {
-        var listKiemTra = await FDriverAppServices.fetchRecommendOrderList(id);
-        if (listKiemTra != null) {
-          if (listKiemTra.length != recommendOrderList!.value.length) {
-            getRecommendOrderList(id);
-            if (listKiemTra.length > recommendOrderList!.value.length) {
-              Get.snackbar('Đơn hàng đề xuất', 'Có đơn đề xuất mới',
-                  onTap: (_) {
-                Get.toNamed(RoutesClass.recommendHome);
-              });
-            }
-          }
-        }
-        print("Đang đề xuất");
         if (trangThaiHoatDong == 0) {
           timer.cancel();
           print("Dừng đề xuất");
+        } else {
+          var listKiemTra =
+              await FDriverAppServices.fetchRecommendOrderList(id);
+          if (listKiemTra != null) {
+            if (listKiemTra.length != recommendOrderList!.value.length) {
+              getRecommendOrderList(id);
+              if (listKiemTra.length > recommendOrderList!.value.length) {
+                Get.snackbar('Đơn hàng đề xuất', 'Có đơn đề xuất mới',
+                    onTap: (_) {
+                  Get.toNamed(RoutesClass.recommendHome);
+                });
+              }
+            }
+          }
+          print("Đang đề xuất");
         }
+        print("Đang lặp");
       });
     }
   }
@@ -189,11 +193,18 @@ class OrderController extends GetxController {
   }
 
   //chuẩn bị dữ liệu cho màn hình run
-  getDataForRunScreen(OrderModel order) async {
+  getDataForRunScreen(
+      OrderModel order, LocationController locationController) async {
     var _placeController = Get.put(PlaceSearchController());
     statusOrder.value = order.trangthai;
     pickUpPoint = await _placeController.setViTri(order.diemdon);
     destination = await _placeController.setViTri(order.diemden);
+    if (statusOrder.value == statusToPickUpPoint) {
+      locationController.setDestinationLocation(pickUpPoint);
+    }
+    if (statusOrder.value == statusStartTheTrip) {
+      locationController.setDestinationLocation(destination);
+    }
   }
 
   //cập nhật trạng thái đơn hàng

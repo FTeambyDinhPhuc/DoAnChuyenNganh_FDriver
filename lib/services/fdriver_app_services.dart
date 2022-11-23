@@ -140,17 +140,21 @@ class FDriverAppServices {
     }
   }
 
-  //Lấy thông tin 1 xe theo id tài xế
-  static Future<CarModel?> fetchCar(int id) async {
+  //Lấy thông tin xe theo id tài xế
+  static Future<List<CarModel>?> fetchCar(int id) async {
     final response = await http
         .get(Uri.parse('https://cn-api.fteamlp.top/api/xe/getInforById/${id}'));
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      if (data['success'] == 0) {
-        Get.snackbar('Lỗi lấy dữ liệu!', data['data']);
+      if (data['error'] == true) {
+        Get.snackbar('Lỗi lấy dữ liệu!', data['message']);
         return null;
       }
-      return CarModel.fromJson(data['data']);
+      List<CarModel> tutorList = [];
+      for (var item in data['data']) {
+        tutorList.add(CarModel.fromJson(item));
+      }
+      return tutorList;
     } else {
       Get.snackbar('Lỗi khi tải dữ liệu!',
           'Máy chủ phản hồi: ${response.statusCode}: ${response.reasonPhrase.toString()}');

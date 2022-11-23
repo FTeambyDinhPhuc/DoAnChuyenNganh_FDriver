@@ -4,6 +4,7 @@ import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/routes/routes.dart';
+
 import 'package:fdriver/widgets/my_button_small.dart';
 import 'package:fdriver/widgets/ticket/ticket.dart';
 import 'package:flutter/material.dart';
@@ -26,20 +27,34 @@ class _RunScreenState extends State<RunScreen> {
 
   @override
   void initState() {
-    _orderController.getDataForRunScreen(order);
+    _orderController.getDataForRunScreen(order, _locationController);
     _locationController.updateCurrentLocation(order.idTaixe.toString());
+    _locationController.getCurrentLocation();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _locationController.stop = true;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          automaticallyImplyLeading: false,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Get.offAndToNamed(RoutesClass.nowHome);
+              }),
           actions: [
             Obx(
               () => _orderController.statusOrder.value == statusBooked
-                  ? MyButtonSmall(
+                  ? ButtonTextIcon(
                       text: 'Tới điểm đón',
                       color: orangeColor,
                       press: () async {
@@ -50,18 +65,25 @@ class _RunScreenState extends State<RunScreen> {
                         _locationController.getPolyPoints();
                       })
                   : _orderController.statusOrder.value == statusToPickUpPoint
-                      ? MyButtonSmall(
+                      ? ButtonTextIcon(
                           text: 'Khởi hành',
                           color: blueColor,
                           press: () async {
-                            await XacNhanKhoiHanh(context);
+                            _orderController.setStatus(
+                                order.idChuyenxe.toString(),
+                                statusStartTheTrip);
+
+                            await _locationController.setDestinationLocation(
+                                _orderController.destination);
+                            _locationController.getPolyPoints();
                           })
-                      : MyButtonSmall(
+                      : ButtonTextIcon(
                           text: 'Hoàn thành',
                           color: Theme.of(context).primaryColor,
                           press: () {
-                            _locationController.stop = true;
-                            XacNhanHoanThanh(context);
+                            _orderController.setStatus(
+                                order.idChuyenxe.toString(), statusCompleted);
+                            Get.offAndToNamed(RoutesClass.nowHome);
                           }),
             ),
           ],
@@ -116,64 +138,6 @@ class _RunScreenState extends State<RunScreen> {
           idTaiXe: _homeController.idDriver.value,
         ),
       ]),
-    );
-  }
-
-  Future<dynamic> XacNhanHoanThanh(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          titleSnackbarOrder,
-          style: Theme.of(context).textTheme.headline4,
-        ),
-        content: Text(
-          'Xác nhận hoàn thành',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        actions: [
-          TextButton(
-              onPressed: () {
-                _orderController.setStatus(
-                    order.idChuyenxe.toString(), statusCompleted);
-                Get.toNamed(RoutesClass.nowHome);
-              },
-              child: Text(
-                'Xác nhận',
-              )),
-        ],
-      ),
-    );
-  }
-
-  XacNhanKhoiHanh(BuildContext context) async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(
-          titleSnackbarOrder,
-          style: Theme.of(context).textTheme.headline4,
-        ),
-        content: Text(
-          'Xác nhận khởi hành',
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        actions: [
-          TextButton(
-              onPressed: () async {
-                _orderController.setStatus(
-                    order.idChuyenxe.toString(), statusStartTheTrip);
-
-                await _locationController
-                    .setDestinationLocation(_orderController.destination);
-                _locationController.getPolyPoints();
-                Get.back();
-              },
-              child: Text(
-                'Xác nhận',
-              )),
-        ],
-      ),
     );
   }
 }

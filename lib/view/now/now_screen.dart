@@ -18,7 +18,7 @@ class NowScreen extends StatefulWidget {
 
 class _NowScreenState extends State<NowScreen> {
   var _homeController = Get.find<HomeController>();
-  var _orderController = Get.find<OrderController>();
+  var _orderController = Get.put(OrderController());
 
   @override
   void initState() {
@@ -69,43 +69,9 @@ class _NowScreenState extends State<NowScreen> {
                               child: ButtonFullWidth(
                                   text: 'Bắt đầu',
                                   press: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: Text(
-                                          titleSnackbarOrder,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4,
-                                        ),
-                                        content: Text(
-                                          'Bạn sẵn sàng cho chuyến đi chưa?',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.back();
-                                              },
-                                              child: Text(
-                                                'Chưa',
-                                                style: TextStyle(
-                                                    color: Colors.red),
-                                              )),
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.offAllNamed(RoutesClass.run,
-                                                    arguments: _orderController
-                                                        .nowOrderList![0]);
-                                              },
-                                              child: Text(
-                                                'Sẵn sàng',
-                                              )),
-                                        ],
-                                      ),
-                                    );
+                                    Get.offAndToNamed(RoutesClass.run,
+                                        arguments:
+                                            _orderController.nowOrderList![0]);
                                   }),
                             ),
                           ],

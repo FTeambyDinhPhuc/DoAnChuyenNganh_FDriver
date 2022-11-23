@@ -25,12 +25,6 @@ class LocationController extends GetxController {
 
   Completer<GoogleMapController> googleController = Completer();
 
-  @override
-  void onInit() {
-    super.onInit();
-    getCurrentLocation();
-  }
-
   //Lấy vị trí hiện tại của thiết bị
   getCurrentLocation() {
     Location location = Location();
@@ -63,6 +57,7 @@ class LocationController extends GetxController {
     Timer.periodic(Duration(seconds: 2), (timer) {
       FDriverAppServices.fetchUpdateLocation(
           idTaiXe, currentLatiTude.toString(), currentLongiTude.toString());
+      getPolyPoints();
       if (stop == true) {
         timer.cancel();
       }

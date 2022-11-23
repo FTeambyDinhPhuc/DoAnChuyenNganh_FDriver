@@ -5,12 +5,12 @@ class ButtonStatistical extends StatelessWidget {
   const ButtonStatistical(
       {Key? key,
       this.press,
-      required this.backgroudColor,
+      this.backgroudColor,
       required this.title,
       required this.content})
       : super(key: key);
   final Function? press;
-  final Color backgroudColor;
+  final Color? backgroudColor;
   final String title;
   final String content;
 
@@ -21,16 +21,18 @@ class ButtonStatistical extends StatelessWidget {
       child: GestureDetector(
         onTap: press as void Function()?,
         child: Container(
-            width: heightButton * 2.5,
-            height: heightButton,
+            padding: EdgeInsets.all(defaultPaddingSmall),
             decoration: BoxDecoration(
                 color: backgroudColor,
+                border: Border.all(
+                  color: borderColor,
+                ),
                 borderRadius: BorderRadius.circular(defaultCircular)),
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '${title}:',
+                  '${title}: ',
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Text(

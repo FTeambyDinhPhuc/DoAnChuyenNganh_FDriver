@@ -29,7 +29,9 @@ class SelectDisplay extends StatelessWidget {
                 },
                 title: 'Tổng đơn hàng',
                 content: _orderController.totalOrder.value,
-                backgroudColor: Colors.teal.shade300,
+                backgroudColor: _orderController.selectStatus.value == ''
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
               ),
               ButtonStatistical(
                 press: () {
@@ -38,7 +40,10 @@ class SelectDisplay extends StatelessWidget {
                 },
                 title: 'Đã đặt',
                 content: _orderController.totalBookedOrder.value,
-                backgroudColor: Colors.teal.shade300,
+                backgroudColor:
+                    _orderController.selectStatus.value == statusBooked
+                        ? Theme.of(context).primaryColor
+                        : Colors.transparent,
               ),
               ButtonStatistical(
                 press: () {
@@ -47,7 +52,10 @@ class SelectDisplay extends StatelessWidget {
                 },
                 title: 'Hoàn thành',
                 content: _orderController.totalCompletedOrder.value,
-                backgroudColor: Colors.blue.shade300,
+                backgroudColor:
+                    _orderController.selectStatus.value == statusCompleted
+                        ? Theme.of(context).primaryColor
+                        : Colors.transparent,
               ),
               ButtonStatistical(
                 press: () {
@@ -56,7 +64,10 @@ class SelectDisplay extends StatelessWidget {
                 },
                 title: 'Đã hủy',
                 content: _orderController.totalCancelOrder.value,
-                backgroudColor: Colors.red.shade300,
+                backgroudColor:
+                    _orderController.selectStatus.value == statusCancelled
+                        ? Theme.of(context).primaryColor
+                        : Colors.transparent,
               ),
             ],
           )),

@@ -1,5 +1,4 @@
 import 'package:fdriver/constants.dart';
-import 'package:fdriver/models/driver_model.dart';
 import 'package:fdriver/routes/routes.dart';
 import 'package:fdriver/services/fdriver_app_services.dart';
 import 'package:flutter/material.dart';

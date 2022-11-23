@@ -14,10 +14,12 @@ class TakeOrderScreen extends StatefulWidget {
 
 class _TakeOrderScreenState extends State<TakeOrderScreen> {
   var _homeController = Get.find<HomeController>();
-  var _orderController = Get.find<OrderController>();
+  var _orderController = Get.put(OrderController());
 
   @override
   void initState() {
+    _orderController
+        .getRecommendOrderList(int.parse(_homeController.idDriver.value));
     super.initState();
   }
 

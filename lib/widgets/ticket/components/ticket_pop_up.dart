@@ -145,7 +145,9 @@ class TicketPopup extends StatelessWidget {
                           titleInfo: 'Điểm tài xế',
                           describe: order.idTaixe == null
                               ? 'Chưa có tài xế'
-                              : driver!.sosao.toString(),
+                              : driver!.sosao == null
+                                  ? 'Chưa được đánh giá'
+                                  : driver!.sosao.toString(),
                         ),
                         InfoOrder(
                           titleInfo: 'Hãng xe',

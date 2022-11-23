@@ -1,8 +1,8 @@
+import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/order_controller.dart';
-import 'package:fdriver/view/statistical/components/button_statistical.dart';
+import 'package:fdriver/view/statistical/components/money_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class MoneyStatistics extends StatelessWidget {
   const MoneyStatistics({
@@ -15,21 +15,18 @@ class MoneyStatistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var moneyFormat = new NumberFormat("###,###,###");
-    return Obx(() => Row(
+    return Obx(() => Column(
           children: [
-            ButtonStatistical(
-              title: 'Tổng tiền ước tính',
-              content:
-                  '${moneyFormat.format(_orderController.totalMoney.value)} vnđ',
-              backgroudColor: Colors.blueGrey.shade300,
+            MoneyCard(
+              title: 'Tổng tiền ước tính:',
+              money: _orderController.totalMoney.value,
             ),
-            ButtonStatistical(
-              title: 'Thực nhận',
-              content:
-                  '${moneyFormat.format(_orderController.moneyReceived.value)} vnđ',
-              backgroudColor: Colors.blueGrey.shade300,
+            const SizedBox(
+              height: defaultPaddingSmall,
             ),
+            MoneyCard(
+                title: 'Thực nhận:',
+                money: _orderController.moneyReceived.value),
           ],
         ));
   }
