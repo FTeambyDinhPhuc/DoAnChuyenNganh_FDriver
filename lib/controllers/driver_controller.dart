@@ -1,25 +1,16 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/home_controller.dart';
-import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/driver_model.dart';
-import 'package:fdriver/models/place.dart';
 import 'package:fdriver/services/fdriver_app_services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class DriverController extends GetxController {
-  var _placeController = Get.put(PlaceSearchController());
-
-  RxString currentAvatar = ''.obs;
   //kiểm tra load màn hình account
   var isLoading = true.obs;
 
   //khởi tạo biến tài xế
   DriverModel? driver;
-
-  //tạo biến địa chỉ để hiển thị địa chỉ của tài xế sau khi giải mã
-  var diaChi;
 
   //text edit controller của màn hình đổi mật khẩu
   late TextEditingController matkhaucuController;
@@ -31,8 +22,6 @@ class DriverController extends GetxController {
     isLoading.value = true;
     driver = await FDriverAppServices.fetchDriver(idTaiXe);
     if (driver != null) {
-      Place place = await _placeController.getPlace(driver!.diachi);
-      diaChi = place.name;
       trangThaiHoatDong.value = driver!.trangthaihoatdong;
       isLoading.value = false;
     } else {
@@ -62,7 +51,7 @@ class DriverController extends GetxController {
     if (matkhaucuController.text.isNotEmpty &&
         matkhaumoiController.text.isNotEmpty &&
         xacnhanmatkhaumoiController.text.isNotEmpty) {
-      if (matkhaucuController.text != _homeController.passDriver.value) {
+      if (matkhaucuController.text != _homeController.passDriver) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -141,14 +130,5 @@ class DriverController extends GetxController {
         ),
       );
     }
-  }
-
-  Future setImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    print('trả về chổ này: ${image.path}');
-
-    currentAvatar.value = 'assets/images/bongocat.gif';
-    //print('hinh hien tai: ${custommerList[0].hinh}');
   }
 }

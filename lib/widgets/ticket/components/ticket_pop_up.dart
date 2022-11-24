@@ -1,5 +1,4 @@
 import 'package:fdriver/constants.dart';
-import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/models/car_model.dart';
 import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/driver_model.dart';
@@ -13,19 +12,10 @@ import 'package:intl/intl.dart';
 
 class TicketPopup extends StatelessWidget {
   TicketPopup(
-      {Key? key,
-      required this.order,
-      required this.orderController,
-      required this.diemDon,
-      required this.diemDen,
-      this.custommer,
-      this.driver,
-      this.car})
+      {Key? key, required this.order, this.custommer, this.driver, this.car})
       : super(key: key);
   final OrderModel order;
-  final OrderController orderController;
-  RxString diemDon;
-  RxString diemDen;
+
   CustommerModel? custommer;
   DriverModel? driver;
   CarModel? car;
@@ -106,11 +96,11 @@ class TicketPopup extends StatelessWidget {
                         ),
                         InfoOrder(
                           titleInfo: 'Điểm đón',
-                          describe: diemDon.value,
+                          describe: order.tendiemdon,
                         ),
                         InfoOrder(
                           titleInfo: 'Điểm đến',
-                          describe: diemDen.value,
+                          describe: order.tendiemden,
                         ),
                         InfoOrder(
                           titleInfo: 'Ngày bắt đầu',

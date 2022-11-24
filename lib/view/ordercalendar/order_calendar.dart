@@ -22,7 +22,7 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
   void initState() {
     _orderController.selectDate.value = '';
     _orderController
-        .selectGetOrderCalendarList(int.parse(_homeController.idDriver.value));
+        .selectGetOrderCalendarList(int.parse(_homeController.idDriver));
     super.initState();
   }
 
@@ -43,7 +43,7 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
           padding: const EdgeInsets.all(defaultPadding),
           child: SelectDisplay(
               orderController: _orderController,
-              idTaiXe: int.parse(_homeController.idDriver.value)),
+              idTaiXe: int.parse(_homeController.idDriver)),
         ),
         Obx(
           () => _orderController.isLoadingOrderCalendarScreen == true
@@ -69,7 +69,7 @@ class _OrderCalendarScreenState extends State<OrderCalendarScreen> {
                       child: RefreshIndicator(
                         onRefresh: () async {
                           _orderController.selectGetOrderCalendarList(
-                              int.parse(_homeController.idDriver.value));
+                              int.parse(_homeController.idDriver));
                         },
                         child: ListOrder(
                           list: _orderController.calendarOrderList!,

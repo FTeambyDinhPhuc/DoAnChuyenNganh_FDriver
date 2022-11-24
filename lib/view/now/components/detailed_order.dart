@@ -1,8 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/custommer_controller.dart';
-import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/order_model.dart';
-import 'package:fdriver/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -18,81 +16,61 @@ class DetailedOrder extends StatefulWidget {
 class _DetailedOrderState extends State<DetailedOrder> {
   _DetailedOrderState({required this.order});
   final OrderModel order;
-  var _placeController = Get.put(PlaceSearchController());
   var _custommerController = Get.put(CustommerController());
-
-  var diemDon = ''.obs;
-  var diemDen = ''.obs;
-
-  getDiaDiem() async {
-    Place placeDiemDon = await _placeController.getPlace(order.diemdon);
-    Place placeDiemDen = await _placeController.getPlace(order.diemden);
-    if (placeDiemDon != null) {
-      diemDon.value = placeDiemDon.name;
-    } else {
-      print('Không lấy được điểm đón!');
-    }
-    if (placeDiemDen != null) {
-      diemDen.value = placeDiemDen.name;
-    } else {
-      print('Không lấy được điểm đến!');
-    }
-  }
 
   @override
   void initState() {
     _custommerController.getCustommer(order.idKhachhang);
-    getDiaDiem();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var moneyFormat = new NumberFormat("###,###,###");
-    return Obx(() =>
-        _custommerController.isLoading.value || diemDon == '' || diemDen == ''
-            ? Center(
-                child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  InfoLine(
-                    title: 'Tên khách hàng',
-                    content: _custommerController.custommer!.tenkhachhang,
-                  ),
-                  InfoLine(
-                    title: 'Số điện thoại',
-                    content: _custommerController.custommer!.sodienthoai,
-                  ),
-                  InfoLine(
-                    title: 'Điểm đón',
-                    content: diemDon.value,
-                  ),
-                  InfoLine(
-                    title: 'Điểm đến',
-                    content: diemDen.value,
-                  ),
-                  InfoLine(
-                    title: 'Giờ khởi hành',
-                    content: order.giodon,
-                  ),
-                  InfoLine(
-                    title: 'Quảng đường ước tính',
-                    content: '${order.quangduong} km',
-                  ),
-                  InfoLine(
-                    title: 'Thành tiền',
-                    content: '${moneyFormat.format(order.thanhtien)} vnđ',
-                  ),
-                  InfoLine(
-                    title: 'Trạng thái',
-                    content: order.trangthai,
-                  ),
-                ],
-              ));
+    return Obx(() => _custommerController.isLoading.value
+        ? Center(
+            child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Colors.blue.shade200)),
+          )
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InfoLine(
+                title: 'Tên khách hàng',
+                content: _custommerController.custommer!.tenkhachhang,
+              ),
+              InfoLine(
+                title: 'Số điện thoại',
+                content: _custommerController.custommer!.sodienthoai,
+              ),
+              InfoLine(
+                title: 'Điểm đón',
+                content: order.tendiemdon,
+              ),
+              InfoLine(
+                title: 'Điểm đến',
+                content: order.tendiemden,
+              ),
+              InfoLine(
+                title: 'Giờ khởi hành',
+                content: order.giodon,
+              ),
+              InfoLine(
+                title: 'Quảng đường ước tính',
+                content: '${order.quangduong} km',
+              ),
+              InfoLine(
+                title: 'Thành tiền',
+                content: '${moneyFormat.format(order.thanhtien)} vnđ',
+              ),
+              InfoLine(
+                title: 'Trạng thái',
+                content: order.trangthai,
+              ),
+            ],
+          ));
   }
 }
 

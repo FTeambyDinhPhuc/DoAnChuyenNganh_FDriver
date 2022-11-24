@@ -28,7 +28,7 @@ class ListOrder extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: defaultPaddingSmall),
             child: Ticket(
               order: _list[index],
-              idTaiXe: _homeController.idDriver.value,
+              idTaiXe: _homeController.idDriver,
             ),
           );
         }));

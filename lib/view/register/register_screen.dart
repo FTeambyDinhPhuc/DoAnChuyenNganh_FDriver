@@ -48,13 +48,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     text: "Đăng ký",
                     press: () async {
                       if (_placeController.idSourceLocation.isNotEmpty) {
-                        await _placeController.setViTriHoatDong();
-                        _registerController.register(
-                            _placeController.idSourceLocation.value,
-                            _placeController.districtSource);
+                        bool ktSetViTriHoatDong =
+                            await _placeController.setViTriHoatDong();
+                        if (ktSetViTriHoatDong) {
+                          _registerController.register(
+                              _placeController.startingAddressController.text,
+                              _placeController.districtSource);
+                        } else {
+                          Get.snackbar(titleSnackbarAccount,
+                              'Không tìm thấy khu vực hoạt động');
+                        }
                       } else {
                         Get.snackbar(
-                            titleSnackbarAccount, 'Bạn chựa nhập địa chỉ!');
+                            titleSnackbarAccount, 'Bạn chựa chọn địa chỉ!');
                       }
                     }),
                 const SizedBox(height: defaultPadding * 2),

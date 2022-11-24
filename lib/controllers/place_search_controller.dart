@@ -64,7 +64,7 @@ class PlaceSearchController extends GetxController {
   }
 
   //set vị trí đón
-  setViTriHoatDong() async {
+  Future<bool> setViTriHoatDong() async {
     Place place = await getPlace(idSourceLocation.value);
     var listComponents = place.addressComponents;
     for (int i = 0; i < listComponents.length; i++) {
@@ -72,9 +72,11 @@ class PlaceSearchController extends GetxController {
       for (int j = 0; j < listTypes.length; j++) {
         if (listTypes[j].toString() == typeDistrict) {
           districtSource = listComponents[i].longName;
+          return true;
         }
       }
     }
+    return false;
   }
 
   //set vị trí đến

@@ -18,8 +18,8 @@ class _TakeOrderScreenState extends State<TakeOrderScreen> {
 
   @override
   void initState() {
-    _orderController
-        .getRecommendOrderList(int.parse(_homeController.idDriver.value));
+    _orderController.getRecommendOrderList(
+        int.parse(_homeController.idDriver), _homeController);
     super.initState();
   }
 

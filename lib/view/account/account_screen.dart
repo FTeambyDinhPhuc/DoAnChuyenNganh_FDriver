@@ -26,10 +26,10 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   void initState() {
-    _driverController.getDriver(int.parse(_homeController.idDriver.value));
-    _carController.getCar(int.parse(_homeController.idDriver.value));
-    _orderController
-        .getRecommendOrderList(int.parse(_homeController.idDriver.value));
+    _driverController.getDriver(int.parse(_homeController.idDriver));
+    _carController.getCar(int.parse(_homeController.idDriver));
+    _orderController.getRecommendOrderList(
+        int.parse(_homeController.idDriver), _homeController);
     super.initState();
   }
 
@@ -110,7 +110,6 @@ class _AccountScreenState extends State<AccountScreen> {
                           ],
                         )),
                   ActionButton(
-                    driverController: _driverController,
                     homeController: _homeController,
                   )
                 ],

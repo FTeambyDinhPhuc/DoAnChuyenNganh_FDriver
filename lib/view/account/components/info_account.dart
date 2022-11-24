@@ -32,7 +32,8 @@ class InfoAccount extends StatelessWidget {
         InfoLine(
             title: 'Căn cước công dân',
             content: _driverController.driver!.cccd),
-        InfoLine(title: 'Địa chỉ đang ở', content: _driverController.diaChi),
+        InfoLine(
+            title: 'Địa chỉ đang ở', content: _driverController.driver!.diachi),
         InfoLine(
             title: 'Số sao',
             content: _driverController.driver!.sosao == null

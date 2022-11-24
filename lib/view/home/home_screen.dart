@@ -27,6 +27,12 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _homeController.disposeHome.value = true;
+    super.dispose();
+  }
+
   static const List<Widget> _widgetOptions = <Widget>[
     AccountScreen(),
     NowScreen(),
@@ -43,8 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Obx(() => _homeController.idDriver != '' &&
-                _homeController.passDriver != ''
+        child: Obx(() => _homeController.disposeHome.value == false
             ? _widgetOptions.elementAt(selectedIndex.value)
             : Center(
                 child: CircularProgressIndicator(

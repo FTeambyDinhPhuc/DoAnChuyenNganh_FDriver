@@ -3,17 +3,21 @@ import 'package:fdriver/routes/routes.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var idDriver = ''.obs;
-  var passDriver = ''.obs;
+  String idDriver = '';
+  String passDriver = '';
+  var disposeHome = true.obs;
 
   getIdDriver() async {
-    idDriver.value = await BaseSharedPreferences.getString('id_taixe');
-    passDriver.value = await BaseSharedPreferences.getString('mk_taixe');
+    idDriver = await BaseSharedPreferences.getString('id_taixe');
+    passDriver = await BaseSharedPreferences.getString('mk_taixe');
+    if (idDriver != '' && passDriver != '') {
+      disposeHome.value = false;
+    }
   }
 
-  logout() async {
-    await BaseSharedPreferences.remove('id_taixe');
-    await BaseSharedPreferences.remove('mk_taixe');
+  logout() {
+    BaseSharedPreferences.remove('id_taixe');
+    BaseSharedPreferences.remove('mk_taixe');
     Get.offAllNamed(RoutesClass.splash);
   }
 }

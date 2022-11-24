@@ -135,7 +135,7 @@ class _RunScreenState extends State<RunScreen> {
         ),
         Ticket(
           order: order,
-          idTaiXe: _homeController.idDriver.value,
+          idTaiXe: _homeController.idDriver,
         ),
       ]),
     );

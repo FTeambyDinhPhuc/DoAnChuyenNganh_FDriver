@@ -21,10 +21,10 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
   @override
   void initState() {
     _orderController.selectStatus.value = '';
-    _orderController.selectGetStatisticalOrderList(
-        int.parse(_homeController.idDriver.value));
-    _orderController.getDataTotalForStatisticalScreen(
-        int.parse(_homeController.idDriver.value));
+    _orderController
+        .selectGetStatisticalOrderList(int.parse(_homeController.idDriver));
+    _orderController
+        .getDataTotalForStatisticalScreen(int.parse(_homeController.idDriver));
     super.initState();
   }
 
@@ -45,7 +45,7 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
           ),
           SelectDisplay(
             orderController: _orderController,
-            idTaiXe: int.parse(_homeController.idDriver.value),
+            idTaiXe: int.parse(_homeController.idDriver),
           ),
           const SizedBox(height: defaultPadding),
           MoneyStatistics(orderController: _orderController),
@@ -73,7 +73,7 @@ class _StatisticalScreenState extends State<StatisticalScreen> {
                       child: RefreshIndicator(
                         onRefresh: () async {
                           _orderController.selectGetStatisticalOrderList(
-                              int.parse(_homeController.idDriver.value));
+                              int.parse(_homeController.idDriver));
                         },
                         child: ListOrder(
                           list: _orderController.statisticalOrderList!,

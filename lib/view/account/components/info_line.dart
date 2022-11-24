@@ -1,6 +1,5 @@
 import 'package:fdriver/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class InfoLine extends StatelessWidget {
   InfoLine({Key? key, required this.title, required this.content})

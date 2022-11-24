@@ -1,18 +1,15 @@
 import 'package:fdriver/constants.dart';
-import 'package:fdriver/models/driver_model.dart';
+
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/widgets/ticket/components/color_ticket.dart';
 import 'package:flutter/material.dart';
 
-import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class InfoBase extends StatelessWidget {
-  InfoBase({Key? key, required this.order, this.driver, required this.diemDen})
-      : super(key: key);
+  InfoBase({Key? key, required this.order}) : super(key: key);
   final OrderModel order;
-  RxString diemDen;
-  DriverModel? driver;
+
   @override
   Widget build(BuildContext context) {
     var moneyFormat = new NumberFormat("###,###,###");
@@ -48,8 +45,8 @@ class InfoBase extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.fromLTRB(
               0, defaultPadding / 2, 0, defaultPadding),
-          child:
-              Text('${diemDen}', style: Theme.of(context).textTheme.headline6),
+          child: Text('${order.tendiemden}',
+              style: Theme.of(context).textTheme.headline6),
         ),
         Row(
           children: [

@@ -40,9 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     text: "Xác nhận",
                     press: () {
                       _driverController.updatePass(
-                          _homeController.idDriver.value,
-                          context,
-                          _homeController);
+                          _homeController.idDriver, context, _homeController);
                     }),
                 const SizedBox(height: defaultPadding),
                 ButtonFullWidth(

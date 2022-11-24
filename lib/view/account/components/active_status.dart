@@ -2,7 +2,6 @@ import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/car_controller.dart';
 import 'package:fdriver/controllers/driver_controller.dart';
 import 'package:fdriver/controllers/home_controller.dart';
-import 'package:fdriver/widgets/button_icon_small.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,10 +54,10 @@ class ActiveStatus extends StatelessWidget {
                 } else {
                   if (trangThaiHoatDong == 0) {
                     _driverController.updateStatusActivate(
-                        int.parse(_homeController.idDriver.value), 1);
+                        int.parse(_homeController.idDriver), 1);
                   } else {
                     _driverController.updateStatusActivate(
-                        int.parse(_homeController.idDriver.value), 0);
+                        int.parse(_homeController.idDriver), 0);
                   }
                 }
               },

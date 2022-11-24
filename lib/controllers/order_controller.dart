@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:fdriver/constants.dart';
+import 'package:fdriver/controllers/home_controller.dart';
 import 'package:fdriver/controllers/location_controller.dart';
 import 'package:fdriver/controllers/place_search_controller.dart';
 import 'package:fdriver/models/order_model.dart';
@@ -54,14 +55,14 @@ class OrderController extends GetxController {
   }
 
   //Lấy danh sách đơn hàng gợi ý
-  getRecommendOrderList(int id) async {
+  getRecommendOrderList(int id, HomeController homeController) async {
     isLoadingRecommendScreen.value = true;
     var listHienThi = await FDriverAppServices.fetchRecommendOrderList(id);
     if (listHienThi != null) {
       recommendOrderList = listHienThi.obs;
       isLoadingRecommendScreen.value = false;
       Timer.periodic(Duration(seconds: 2), (timer) async {
-        if (trangThaiHoatDong == 0) {
+        if (trangThaiHoatDong == 0 || homeController.disposeHome.value) {
           timer.cancel();
           print("Dừng đề xuất");
         } else {
@@ -69,7 +70,7 @@ class OrderController extends GetxController {
               await FDriverAppServices.fetchRecommendOrderList(id);
           if (listKiemTra != null) {
             if (listKiemTra.length != recommendOrderList!.value.length) {
-              getRecommendOrderList(id);
+              getRecommendOrderList(id, homeController);
               if (listKiemTra.length > recommendOrderList!.value.length) {
                 Get.snackbar('Đơn hàng đề xuất', 'Có đơn đề xuất mới',
                     onTap: (_) {

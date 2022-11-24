@@ -11,7 +11,9 @@ class OrderModel {
     this.idTaixe,
     required this.idKhachhang,
     required this.diemdon,
+    required this.tendiemdon,
     required this.diemden,
+    required this.tendiemden,
     required this.khuvucdon,
     required this.ngaydon,
     required this.giodon,
@@ -26,7 +28,9 @@ class OrderModel {
   int? idTaixe;
   int idKhachhang;
   String diemdon;
+  String tendiemdon;
   String diemden;
+  String tendiemden;
   String khuvucdon;
   String ngaydon;
   String giodon;
@@ -41,7 +45,9 @@ class OrderModel {
         idTaixe: json["id_taixe"],
         idKhachhang: json["id_khachhang"],
         diemdon: json["diemdon"],
+        tendiemdon: json["tendiemdon"],
         diemden: json["diemden"],
+        tendiemden: json["tendiemden"],
         khuvucdon: json["khuvucdon"],
         ngaydon: json["ngaydon"],
         giodon: json["giodon"],

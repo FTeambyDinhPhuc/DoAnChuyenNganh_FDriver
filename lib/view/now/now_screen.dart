@@ -22,7 +22,7 @@ class _NowScreenState extends State<NowScreen> {
 
   @override
   void initState() {
-    _orderController.getNowOrderList(int.parse(_homeController.idDriver.value),
+    _orderController.getNowOrderList(int.parse(_homeController.idDriver),
         DateFormat("dd-MM-yyyy").format(DateTime.now()));
     super.initState();
   }
