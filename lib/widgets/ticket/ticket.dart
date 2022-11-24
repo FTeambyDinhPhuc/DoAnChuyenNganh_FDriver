@@ -4,6 +4,7 @@ import 'package:fdriver/controllers/custommer_controller.dart';
 import 'package:fdriver/controllers/driver_controller.dart';
 import 'package:fdriver/controllers/order_controller.dart';
 import 'package:fdriver/methodshares/hero_dialog_route.dart';
+import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:fdriver/widgets/ticket/components/action_order.dart';
 import 'package:fdriver/widgets/ticket/components/info_base.dart';
@@ -31,14 +32,27 @@ class _TicketState extends State<Ticket> {
   var _carController = Get.put(CarController());
   var _orderController = Get.put(OrderController());
 
-  @override
-  void initState() {
-    _custommerController.getCustommer(order.idKhachhang);
+  CustommerModel? _custommer;
+  var isLoadingCustommer = true.obs;
 
+  getDriverAndCar() {
     if (order.idTaixe != null) {
       _driverController.getDriver(order.idTaixe!);
       _carController.getCar(order.idTaixe!);
     }
+  }
+
+  getCustommer() async {
+    _custommer = await _custommerController.getCustommer(order.idKhachhang);
+    if (_custommer != null) {
+      isLoadingCustommer.value = false;
+    }
+  }
+
+  @override
+  void initState() {
+    getCustommer();
+    getDriverAndCar();
     super.initState();
   }
 
@@ -47,7 +61,7 @@ class _TicketState extends State<Ticket> {
     return Obx(() => order.idTaixe != null
         ? _driverController.isLoading.value ||
                 _carController.isLoading.value ||
-                _custommerController.isLoading.value
+                isLoadingCustommer.value
             ? Center(
                 child: Image.asset(
                   'assets/images/loading.gif',
@@ -55,7 +69,7 @@ class _TicketState extends State<Ticket> {
                 ),
               )
             : mainTicket(context)
-        : _custommerController.isLoading.value
+        : isLoadingCustommer.value
             ? Center(
                 child: Image.asset(
                   'assets/images/loading.gif',
@@ -71,7 +85,7 @@ class _TicketState extends State<Ticket> {
         Navigator.of(context).push(HeroDialogRoute(builder: (context) {
           return TicketPopup(
             order: order,
-            custommer: _custommerController.custommer,
+            custommer: _custommer,
             driver: _driverController.driver,
             car: _carController.carList?[0],
           );

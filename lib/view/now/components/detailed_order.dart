@@ -1,5 +1,6 @@
 import 'package:fdriver/constants.dart';
 import 'package:fdriver/controllers/custommer_controller.dart';
+import 'package:fdriver/models/custommer_model.dart';
 import 'package:fdriver/models/order_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,17 +19,26 @@ class _DetailedOrderState extends State<DetailedOrder> {
   final OrderModel order;
   var _custommerController = Get.put(CustommerController());
 
+  CustommerModel? _custommer;
+  var isLoadingCustommer = true.obs;
+
+  getCustommer() async {
+    _custommer = await _custommerController.getCustommer(order.idKhachhang);
+    if (_custommer != null) {
+      isLoadingCustommer.value = false;
+    }
+  }
+
   @override
   void initState() {
-    _custommerController.getCustommer(order.idKhachhang);
-
+    getCustommer();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var moneyFormat = new NumberFormat("###,###,###");
-    return Obx(() => _custommerController.isLoading.value
+    return Obx(() => isLoadingCustommer.value
         ? Center(
             child: CircularProgressIndicator(
                 valueColor:
@@ -39,11 +49,11 @@ class _DetailedOrderState extends State<DetailedOrder> {
             children: [
               InfoLine(
                 title: 'Tên khách hàng',
-                content: _custommerController.custommer!.tenkhachhang,
+                content: _custommer!.tenkhachhang,
               ),
               InfoLine(
                 title: 'Số điện thoại',
-                content: _custommerController.custommer!.sodienthoai,
+                content: _custommer!.sodienthoai,
               ),
               InfoLine(
                 title: 'Điểm đón',

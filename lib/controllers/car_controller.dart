@@ -4,11 +4,10 @@ import 'package:get/get.dart';
 
 class CarController extends GetxController {
   var isLoading = true.obs;
-
   RxList<CarModel>? carList;
-
   //Lấy thông tin tài khoản tài xế
   getCar(int id) async {
+    isLoading.value = true;
     var list = await FDriverAppServices.fetchCar(id);
     if (list != null) {
       carList = list.obs;
